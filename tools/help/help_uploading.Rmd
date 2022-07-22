@@ -3,7 +3,7 @@ title: "Uploading Data"
 output: html_document
 ---
 
-Your data should be uploaded as either an Excel spreadsheet or text-based file with tab, comma or semi-colon separators. Samples must be in columns and genes in rows: The first column should contain either gene symbols or gene ENSEMBL IDs:
+Data can be uploaded as either an Excel spreadsheet or as a delimited file with either tab, comma or semi-colon separators. Samples must be in columns and genes in rows and the first column should contain either gene symbols or gene ENSEMBL IDs:
 
 <br>
 
@@ -11,4 +11,8 @@ Your data should be uploaded as either an Excel spreadsheet or text-based file w
 
 <br>
 
-Moreover the expression values should be appropriately normalised to account for sequencing depth: The units should be either **FPKM** (fragments per kilobase million); **TMP** (transcripts per million) or **CPM** (counts per million). 
+The expression values should be appropriately normalised to account for sequencing depth, the units for which can be wither ***FPKM*** (fragments per kilobase million); ***TMP*** (transcripts per million) or ***CPM*** (counts per million).
+
+<br>
+
+All expression values must unlogged, as they will converted onto a log2 scale during processing.

@@ -1,118 +1,190 @@
 # This script contains the server logic for the GBMDeconvoluteR Shiny web application. 
 # You can run the application by clicking 'Run App' above.
 
-library(shiny)
-library(rsconnect)
-library(MCPcounter)
-library(tidyverse)
-library(openxlsx)
-# library(scalop)
-library(glue)
+options(shiny.maxRequestSize=200*1024^2)
 
-# Define server logic required to draw a histogram
+library(shiny)
+library(tidyverse)
+library(MCPcounter)
+library(tinyscalop)
+library(openxlsx)
+# library(rsconnect)
+
+# Define server logic
 shinyServer(function(input, output, session) {
   
-  options(shiny.maxRequestSize=200*1024^2)
-
-  #' Reactivity required to display download button after file upload
+  # Reactivity required to display the Run button after file upload
   output$finishedUploading <- reactive({
-    if (is.null(input$upFile))
-    { 0 } else { 1 }
-  })
-  
+
+    if (is.null(input$upload_file)) 0 else 1
+
+    })
+
   outputOptions(output, 'finishedUploading', suspendWhenHidden=FALSE)
   
   
-  #' Reactive function to generate Deconvolute scores to pass to data table
-  deconv_call <- eventReactive(input$goDec, {
-    
-    inFile <- input$upFile
-    
-    if(tools::file_ext(inFile$name) %in% "xlsx"){
-      
-      upData <- openxlsx::read.xlsx(inFile$datapath,
+  user_data <- reactiveValues()
+  
+
+  # Data Upload reactivity
+  data_upload <- eventReactive(input$upload_file, {
+
+    # inFile <- input$upload_file
+
+    if(tools::file_ext(input$upload_file$name) %in% "xlsx"){
+
+      user_data$upData <- openxlsx::read.xlsx(input$upload_file$datapath,
                                     colNames = TRUE)
-    } else{
+
+      }else if(tools::file_ext(input$upload_file$name) %in% "csv"){
+
+        user_data$upData <- readr::read_csv(file = input$upload_file$datapath,
+                                  col_types = cols())
+
+        }else if(tools::file_ext(input$upload_file$name) %in% "tsv"){
+
+          user_data$upData <- readr::read_tsv(file = input$upload_file$datapath,
+                                    col_types = cols())
+
+          }
+  })
+  
+
+  # Reactive function to generate the Deconvolution markers
+  deconv_markers_call <- eventReactive(input$deconvolute_button, valueExpr = {
+    
+    # Put the uploaded data into Log2 space
+    exprs_matrix <- user_data$upData %>%
       
-      upData <- readr::read_delim(file = inFile$datapath,
-                                  col_types = cols(),
-                                  delim = input$sep, 
-                                  quote=input$quote)
+      tibble::column_to_rownames(colnames(user_data$upData)[[1]]) %>%
+      
+      as.matrix() %>%
+      
+      tinyscalop::exprs_levels(m = ., bulk = TRUE, log_scale = TRUE)
+    
+    
+    # Filter out any genes which are zero across all samples
+    exprs_matrix <- exprs_matrix[Matrix::rowSums(exprs_matrix) != 0,]                            
+    
+    
+    # Refine Neftel markers
+    set.seed(1234)
+    
+    gene_markers$neoplastic <- 
+      tinyscalop::filter_signatures(m = exprs_matrix,
+                                    sigs = gene_markers$neftel_sigs$four_sigs,
+                                    filter.threshold = 0.4)
+    
+    
+    gene_markers$neoplastic <- data.frame(
+      
+      "marker" = unlist(gene_markers$neoplastic, use.names = FALSE),
+      
+      "population" = rep(names(gene_markers$neoplastic), 
+                         lengths(gene_markers$neoplastic))
+    )
+    
+    
+    # Tumour intrinsic neoplastic marker genes
+    gene_markers$TI_neoplastic <- 
+      gene_markers$neoplastic[gene_markers$neoplastic$marker %in% gene_markers$tumor_intrinsic,]
+    
+    
+   # Clean up and combine refined markers
+    
+    if(input$tumour_intrinsic == "Yes"){
+      
+      user_data$deconv_markers <- gene_markers$TI_neoplastic %>% 
+        
+        tidyr::drop_na() %>%
+        
+        rename("HUGO symbols" = marker,
+               "Cell population" = population) %>%
+        
+        rbind(gene_markers$immune)
+      
+    }else{
+      
+      user_data$deconv_markers <- gene_markers$neoplastic %>% 
+      
+      tidyr::drop_na() %>%
+      
+      rename("HUGO symbols" = marker,
+             "Cell population" = population) %>%
+      
+      rbind(gene_markers$immune)
+  
     }
     
-    # upData <- readr::read_delim(file = "data/test_data/test.csv",
-    #                             col_types = cols(),
-    #                             delim = ",", 
-    #                             quote="")
-    # 
-    
-    MCPCounter_score <- function(x, feat_types = c("HUGO_symbols","ENTREZ_ID"),
-                                 gene_pops = genes){
-      
-      if(!any(class(x) %in% c("tbl_df", "tbl", "data.frame"))) stop("MCPCounter input is not a data.frame", call. = FALSE)
-      
-      if(!any(grepl("^gene$", colnames(x), ignore.case = T))) stop("Gene column not found in input data", call. = FALSE)
-      
-      feature_types <- match.arg(feat_types, choices = c("HUGO_symbols","ENTREZ_ID"),
-                                 several.ok = FALSE)
-      
-      score_data <- as.data.frame(x)
-      
-      gene_index <- grep("^gene$", colnames(score_data), ignore.case = T)
-      
-      rownames(score_data) <- score_data[[gene_index]]
-      
-      score_data <- score_data[,-gene_index]
-      
-      mcp_deconvolute <- MCPcounter::MCPcounter.estimate(score_data,
-                                                         featuresType = feature_types,
-                                                         genes = gene_pops)
-      
-      mcp_deconvolute <- as.data.frame(t(mcp_deconvolute))
-      
-      mcp_deconvolute <- tibble::rownames_to_column(mcp_deconvolute, 
-                                                    var = "Mixture")
-      
-      return(mcp_deconvolute)
-      
-    }
-    
-    
-    scores  <- MCPCounter_score(upData, gene_pops = gene_set_list)
-      
-    # upData <- read.csv(inFile$datapath, 
-    #                    header=input$header, 
-    #                    sep=input$sep, 
-    #                    quote=input$quote, 
-    #                    stringsAsFactors=FALSE)
-    # 
-    # row.names(upData) <- upData[,"Sample"]
-    # exprs <- data.frame(t(upData[,-1]),check.names=FALSE)
-    # platformDec <- ifelse(input$platformDec == "rnaseq",TRUE, FALSE)
-    
-    # gene_list <- switch(input$geneListDec,
-    #                     "Charoentong et al. 2017" = gene_set_list$charoentong,
-    #                     "Newman et al. 2015" = gene_set_list$LM22,
-    #                     "Engler et al. 2012" = gene_set_list$engler,
-    #                     "Bindea et al. 2013" = gene_set_list$galon,
-    #                     "MSigDB gene sets" = gene_set_list$msigdb[input$genesets_msigdb])
-    # 
-    # set.seed(1234)
-    # gsva_results <- GSVA::gsva(expr=as.matrix(exprs), gset.idx.list = gene_list, method="ssgsea", rnaseq = platformDec, parallel.sz = 0,
-    #                            min.sz = input$min.sz, max.sz= input$max.sz, verbose= FALSE)
-    # deconv_scores <- data.frame(Sample = rownames(upData),t(gsva_results))
-    # deconv <- list(results = gsva_results, scores = deconv_scores)
   })
   
   
-  #' Rerndering the Deconvolute scores as a data table
-  output$deconvScore <- DT::renderDataTable({
-    validate(
-      need(!is.null(input$upFile),"Please Upload a Dataset to retrive scores"),
-        need(!is.null(input$goDec),'Please press "RUN DECONVOLUTE"')
+  # Deconvolution
+  scores  <-  reactive({ 
+    tinyscalop::MCPCounter_score(x = user_data$upData, 
+                                 gene_pops = user_data$deconv_markers, 
+                                 out_digits = 2)}
+    
     )
-    datatable(deconv_call(), rownames = FALSE, extensions = c("FixedColumns", 'Buttons'),
-              options = list(scrollX = TRUE, scrollCollapse = TRUE, orderClasses = TRUE, autoWidth = TRUE)
+
+  
+  # Render the uploaded table
+  output$uploaded_data <- DT::renderDataTable({
+    
+    validate(
+      need(!is.null(input$upload_file),"Please Upload an Expression Data File")
+    )
+    
+    datatable(data_upload(), 
+              rownames = FALSE, 
+              options = list(scrollX = TRUE, 
+                             scrollY = 600,
+                             scrollCollapse = TRUE, 
+                             orderClasses = TRUE, 
+                             autoWidth = FALSE,
+                             search = list(regex = TRUE)
+              )
+    )
+  }, server = TRUE)
+  
+  
+  # Render the Deconvolution scores
+  output$deconv_scores <- DT::renderDataTable({
+    
+    validate(
+      need(!is.null(input$upload_file),"Please Upload a Dataset and run deconvolution to retrive scores"),
+      need(!is.null(input$deconvolute_button),'Please press "Run Deconvolute"')
+    )
+    datatable(scores(),
+              rownames = FALSE, 
+              extensions = c("FixedColumns", 'Buttons'),
+              options = list(scrollX = TRUE, 
+                             scrollY = 600,
+                             scrollCollapse = TRUE, 
+                             orderClasses = TRUE, 
+                             autoWidth = FALSE,
+                             search = list(regex = TRUE)
+              )
+    )
+  },server = FALSE)
+  
+  
+  # Render the Deconvolution markers
+  output$deconv_markers <- DT::renderDataTable({
+    validate(
+      need(!is.null(input$upload_file),"Please Upload a Dataset and run deconvolution to retrive scores"),
+        need(!is.null(input$deconvolute_button),'Please press "Run Deconvolute"')
+    )
+    datatable(deconv_markers_call(),
+              rownames = FALSE, 
+              extensions = c("FixedColumns", 'Buttons'),
+              options = list(scrollX = TRUE, 
+                             scrollY = 600,
+                             scrollCollapse = TRUE, 
+                             orderClasses = TRUE, 
+                             autoWidth = FALSE,
+                             search = list(regex = TRUE)
+              )
     )
   },server = FALSE)
   
