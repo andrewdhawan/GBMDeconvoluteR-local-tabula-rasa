@@ -101,7 +101,8 @@ tabPanel(
         # Barplot
         tabPanel(title = "Barchart", 
                  id = "barplot_tab",
-                 plotOutput(outputId = "deconvBoxPlot", 
+                 downloadButton("downloadData"),
+                 plotOutput(outputId = "scores_plot", 
                             height = "100%")
         )
       )

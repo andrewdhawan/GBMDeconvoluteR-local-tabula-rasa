@@ -13,7 +13,7 @@ library(openxlsx)
 # Define server logic
 shinyServer(function(input, output, session) {
 
-# DYNAMIC RUN BUTTON -----------------------------------------------------------  
+# SESSION INFO -----------------------------------------------------------------  
   
   output$sessionInfo <- renderPrint({
     capture.output(sessionInfo())
@@ -133,7 +133,7 @@ shinyServer(function(input, output, session) {
     
   }) 
   
-#  DECONVOLUTION MARKERS -------------------------------------------------------
+# DECONVOLUTION MARKERS -------------------------------------------------------
   
   get_markers <- reactive({ 
     
@@ -197,9 +197,12 @@ shinyServer(function(input, output, session) {
   
   scores  <-  reactive({
     
-    tinyscalop::MCPCounter_score(x = user_data$exprs, 
-                                 gene_pops = user_data$deconv_markers, 
-                                 out_digits = 2)})
+    user_data$scores <- tinyscalop::MCPCounter_score(x = user_data$exprs, 
+                                                     gene_pops = user_data$deconv_markers, 
+                                                     out_digits = 2)
+    return(user_data$scores)
+    
+    })
   
   # Render the Deconvolution scores
   output$deconv_scores <- DT::renderDataTable({
@@ -227,6 +230,97 @@ shinyServer(function(input, output, session) {
               )
     )
   }, server = TRUE)
+  
+  
+  
+# PLOT SCORES ------------------------------------------------------------------
+  
+  deconv_scores_plot <- reactive({
+    
+    user_data$deconv_barplot <- user_data$scores %>%
+      
+      tidyr::pivot_longer(cols = -Mixture,
+                          names_to = "population", 
+                          values_to = "score") %>%
+      
+      dplyr::mutate(across(population, as.factor)) %>%
+      
+      ggplot(aes(fill=population, y=score, x=Mixture)) + 
+      
+      geom_bar(position="fill", stat="identity") +
+      
+      scale_fill_manual(values = plot_cols) +
+      # scale_y_continuous(labels = function(x) paste0(x, "%")) +
+      theme_classic(base_size = 24) +
+      ggtitle("") +
+      xlab("") +
+      ylab("Abundance Estimates (Arbitary units)") +
+      
+      theme(axis.text.x = element_text(angle = 90, hjust = 1),
+            legend.title = element_blank(),
+            plot.title = element_text(face = "bold", colour = "black", hjust = 0.5)
+      )
+    
+    return(user_data$deconv_barplot)
+    
+  })
+  
+  
+  output$scores_plot <- renderPlot({
+    
+    validate(
+    
+      need(input$deconvolute_button >=1,'Please press "Run" to view')
+      
+    )
+    
+    deconv_scores_plot()
+    
+    # user_data$scores %>%
+    #   
+    #   tidyr::pivot_longer(cols = -Mixture,
+    #                names_to = "population", 
+    #                values_to = "score") %>%
+    #   
+    #   dplyr::mutate(across(population, as.factor)) %>%
+    #   
+    #   ggplot(aes(fill=population, y=score, x=Mixture)) + 
+    #   
+    #   geom_bar(position="fill", stat="identity") +
+    #   
+    #   scale_fill_manual(values = plot_cols) +
+    #   # scale_y_continuous(labels = function(x) paste0(x, "%")) +
+    #   theme_classic(base_size = 24) +
+    #   ggtitle("") +
+    #   xlab("") +
+    #   ylab("Abundance Estimates (Arbitary units)") +
+    #   
+    #   theme(axis.text.x = element_text(angle = 90, hjust = 1),
+    #         legend.title = element_blank(),
+    #         plot.title = element_text(face = "bold", colour = "black", hjust = 0.5)
+    #   )
+    
+  },width = 900, height = 700)
+  
+  
+# DOWNLOAD PLOT ---------------------------------------------------------------  
+  
+  output$downloadData <- downloadHandler(
+    
+    filename = function(){
+      
+      paste(format(Sys.time(), "%d-%m-%Y %H_%M_%S"),
+            "_GBMDeconvoluteR_scores.pdf", sep = "")
+    },
+    
+    
+    content = function(file) {
+      ggsave(file, plot = deconv_scores_plot(), 
+             device = "pdf", 
+             width = 29.7, height = 21, units = "cm", dpi = 320)
+      
+    }
+  )
   
   
 })

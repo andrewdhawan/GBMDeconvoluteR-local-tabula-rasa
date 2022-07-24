@@ -103,6 +103,8 @@ gene_markers$immune <- readRDS("data/GBM_Immune_markers.rds")
 
 gene_markers$tumor_intrinsic <- readRDS("data/GBM_tumor_intrinsic_genes.rds")
 
+plot_cols <- readRDS("data/plot_colors.rds")
+
 
 # REMOVE NA COLUMNS  ----
 
