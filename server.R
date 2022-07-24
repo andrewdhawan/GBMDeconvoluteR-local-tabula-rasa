@@ -13,50 +13,76 @@ library(openxlsx)
 # Define server logic
 shinyServer(function(input, output, session) {
   
-  # Reactivity required to display the Run button after file upload
+# DYNAMIC RUN BUTTON -----------------------------------------------------------
+  
+  # Render the uploaded table
+  output$uploaded_data <- DT::renderDataTable({
+    
+    # input$upload_file will be NULL initially. After the user selects
+    # and uploads a file, this data will be displayed in the uploaded data tab 
+    
+    validate(
+      need(!is.null(input$upload_file),"Please upload a dataset to view")
+    )
+    
+    
+    datatable(uploaded_data(), 
+              rownames = FALSE, 
+              options = list(scrollX = TRUE, 
+                             scrollY = 300,
+                             # paging = FALSE,
+                             pageLength = 20,
+                             scrollCollapse = TRUE, 
+                             orderClasses = TRUE, 
+                             autoWidth = FALSE,
+                             search = list(regex = TRUE)
+              )
+    )
+  }, server = TRUE)
+  
+  
+  # Reactivity required to display the Run button after upload
   output$finishedUploading <- reactive({
-
+    
     if (is.null(input$upload_file)) 0 else 1
-
-    })
-
+    
+  })
+  
   outputOptions(output, 'finishedUploading', suspendWhenHidden=FALSE)
   
   
+  
+# USER UPLOADED DATA -----------------------------------------------------------
+  
   user_data <- reactiveValues()
   
-
-  # Data Upload reactivity
-  data_upload <- eventReactive(input$upload_file, {
-
-    # inFile <- input$upload_file
-
+  uploaded_data <- eventReactive(input$upload_file, {
+    
+    # Load in the user data ----
+    
     if(tools::file_ext(input$upload_file$name) %in% "xlsx"){
-
-      user_data$upData <- openxlsx::read.xlsx(input$upload_file$datapath,
-                                    colNames = TRUE)
-
-      }else if(tools::file_ext(input$upload_file$name) %in% "csv"){
-
-        user_data$upData <- readr::read_csv(file = input$upload_file$datapath,
-                                  col_types = cols())
-
-        }else if(tools::file_ext(input$upload_file$name) %in% "tsv"){
-
-          user_data$upData <- readr::read_tsv(file = input$upload_file$datapath,
-                                    col_types = cols())
-
-          }
-  })
-  
-
-  # Reactive function to generate the Deconvolution markers
-  deconv_markers_call <- eventReactive(input$deconvolute_button, valueExpr = {
+      
+      df <- openxlsx::read.xlsx(input$upload_file$datapath,
+                                colNames = TRUE)
+      
+    }else if(tools::file_ext(input$upload_file$name) %in% "csv"){
+      
+      df <- readr::read_csv(input$upload_file$datapath,
+                            col_types = cols())
+      
+    }else if(tools::file_ext(input$upload_file$name) %in% "tsv"){
+      
+      df <- readr::read_tsv(input$upload_file$datapath,
+                            col_types = cols())
+      
+    }
+    
+    # Refine neoplastic signatures ----
     
     # Put the uploaded data into Log2 space
-    exprs_matrix <- user_data$upData %>%
+    exprs_matrix <- df %>%
       
-      tibble::column_to_rownames(colnames(user_data$upData)[[1]]) %>%
+      tibble::column_to_rownames(colnames(df)[[1]]) %>%
       
       as.matrix() %>%
       
@@ -70,31 +96,44 @@ shinyServer(function(input, output, session) {
     # Refine Neftel markers
     set.seed(1234)
     
-    gene_markers$neoplastic <- 
+    refined_neoplastic <- 
       tinyscalop::filter_signatures(m = exprs_matrix,
                                     sigs = gene_markers$neftel_sigs$four_sigs,
                                     filter.threshold = 0.4)
     
     
-    gene_markers$neoplastic <- data.frame(
+    refined_neoplastic <- data.frame(
       
-      "marker" = unlist(gene_markers$neoplastic, use.names = FALSE),
+      "marker" = unlist(refined_neoplastic, use.names = FALSE),
       
-      "population" = rep(names(gene_markers$neoplastic), 
-                         lengths(gene_markers$neoplastic))
+      "population" = rep(names(refined_neoplastic), 
+                         lengths(refined_neoplastic))
     )
     
     
-    # Tumour intrinsic neoplastic marker genes
-    gene_markers$TI_neoplastic <- 
-      gene_markers$neoplastic[gene_markers$neoplastic$marker %in% gene_markers$tumor_intrinsic,]
+    TI_refined_neoplastic <- 
+      refined_neoplastic[refined_neoplastic$marker %in% gene_markers$tumor_intrinsic,]
     
     
-   # Clean up and combine refined markers
+    # Outputs ----
     
-    if(input$tumour_intrinsic == "Yes"){
+    user_data$exprs <- df
+    
+    user_data$refined_neoplastic <- refined_neoplastic
+    
+    user_data$TI_refined_neoplastic <- TI_refined_neoplastic
+    
+    return(df)
+    
+  }) 
+  
+#  DECONVOLUTION MARKERS -------------------------------------------------------
+  
+  get_markers <- reactive({ 
+    
+    if(input$tumour_intrinsic){
       
-      user_data$deconv_markers <- gene_markers$TI_neoplastic %>% 
+      deconv_markers <-  user_data$TI_refined_neoplastic %>% 
         
         tidyr::drop_na() %>%
         
@@ -105,40 +144,40 @@ shinyServer(function(input, output, session) {
       
     }else{
       
-      user_data$deconv_markers <- gene_markers$neoplastic %>% 
+      deconv_markers <- user_data$refined_neoplastic %>% 
+        
+        tidyr::drop_na() %>%
+        
+        rename("HUGO symbols" = marker,
+               "Cell population" = population) %>%
+        
+        rbind(gene_markers$immune)
       
-      tidyr::drop_na() %>%
-      
-      rename("HUGO symbols" = marker,
-             "Cell population" = population) %>%
-      
-      rbind(gene_markers$immune)
-  
     }
     
-  })
-  
-  
-  # Deconvolution
-  scores  <-  reactive({ 
-    tinyscalop::MCPCounter_score(x = user_data$upData, 
-                                 gene_pops = user_data$deconv_markers, 
-                                 out_digits = 2)}
+     user_data$deconv_markers <- deconv_markers
+     
+     return(deconv_markers)
     
-    )
-
+    })
   
-  # Render the uploaded table
-  output$uploaded_data <- DT::renderDataTable({
+  
+  # Render the Deconvolution markers
+  output$deconv_markers <- DT::renderDataTable({
     
     validate(
-      need(!is.null(input$upload_file),"Please Upload an Expression Data File")
+      
+      need(!is.null(input$upload_file),"Please upload a dataset to view"),
+    
     )
     
-    datatable(data_upload(), 
+    datatable(get_markers(),
               rownames = FALSE, 
+              extensions = c("FixedColumns", 'Buttons'),
               options = list(scrollX = TRUE, 
-                             scrollY = 600,
+                             scrollY = 300,
+                             # paging = FALSE,
+                             pageLength = 20,
                              scrollCollapse = TRUE, 
                              orderClasses = TRUE, 
                              autoWidth = FALSE,
@@ -148,46 +187,40 @@ shinyServer(function(input, output, session) {
   }, server = TRUE)
   
   
+# DECONVOLUTION SCORES ---------------------------------------------------------
+  
+  scores  <-  reactive({
+    
+    tinyscalop::MCPCounter_score(x = user_data$exprs, 
+                                 gene_pops = user_data$deconv_markers, 
+                                 out_digits = 2)})
+  
   # Render the Deconvolution scores
   output$deconv_scores <- DT::renderDataTable({
     
     validate(
-      need(!is.null(input$upload_file),"Please Upload a Dataset and run deconvolution to retrive scores"),
-      need(!is.null(input$deconvolute_button),'Please press "Run Deconvolute"')
+      
+      need(!is.null(input$upload_file),"Please upload a dataset to view"),
+      
+      need(input$deconvolute_button >=1,'Please press "Run" to view')
+      
     )
+    
+    
     datatable(scores(),
               rownames = FALSE, 
               extensions = c("FixedColumns", 'Buttons'),
               options = list(scrollX = TRUE, 
-                             scrollY = 600,
+                             scrollY = 300,
+                             # paging = FALSE,
+                             pageLength = 20,
                              scrollCollapse = TRUE, 
                              orderClasses = TRUE, 
                              autoWidth = FALSE,
                              search = list(regex = TRUE)
               )
     )
-  },server = FALSE)
-  
-  
-  # Render the Deconvolution markers
-  output$deconv_markers <- DT::renderDataTable({
-    validate(
-      need(!is.null(input$upload_file),"Please Upload a Dataset and run deconvolution to retrive scores"),
-        need(!is.null(input$deconvolute_button),'Please press "Run Deconvolute"')
-    )
-    datatable(deconv_markers_call(),
-              rownames = FALSE, 
-              extensions = c("FixedColumns", 'Buttons'),
-              options = list(scrollX = TRUE, 
-                             scrollY = 600,
-                             scrollCollapse = TRUE, 
-                             orderClasses = TRUE, 
-                             autoWidth = FALSE,
-                             search = list(regex = TRUE)
-              )
-    )
-  },server = FALSE)
-  
+  }, server = TRUE)
   
   
 })

@@ -34,16 +34,8 @@ tabPanel(
         fileInput(inputId = "upload_file", 
                   multiple = FALSE,
                   label = "",
-                  buttonLabel = "Select File...",
-                  accept=c(".csv", ".tsv", ".xlsx")
-        )
-        
-        # conditionalPanel(
-        #   condition = "output.finishedUploading",
-        #   actionButton(inputId = "view_data", 
-        #                label = "View", 
-        #                class= "btn-success")
-        #   )
+                  buttonLabel = "Browse...",
+                  accept=c(".csv", ".tsv", ".xlsx"))
         
       ),
       
@@ -52,7 +44,7 @@ tabPanel(
       # RUN DECONVOLUTION WELL PANEL
       wellPanel(
         
-        tags$h4("Deconvolute"),
+        tags$h4("Deconvolution Options"),
         
         helpModal(modal_title ="Deconvoluting Expression Profiles",
                   link = "helptumourintrinsic",
@@ -61,9 +53,9 @@ tabPanel(
         br(), br(),
         
         radioButtons(inputId = "tumour_intrinsic",
-                     label = strong("Tumour Intrinsic Genes Only"),
-                     choices = c("Yes" = "Yes",
-                                 "No" = "No"),
+                     label = strong("Tumour Intrinsic Genes Only:"),
+                     choices = c("Yes" = TRUE,
+                                 "No" = FALSE),
                      inline = TRUE),
         
         br(),
@@ -88,32 +80,27 @@ tabPanel(
       
       tabsetPanel(
         id = "main_runpage_panel",
-        
         # File upload
-        tabPanel(title = "Uploaded",
-                 id = "uploaded_data",
-                 busy(),
+        tabPanel(title = "Uploaded Data",
+                 id = "uploaded_tab",
                  DT::dataTableOutput(outputId = "uploaded_data")
-        ),
-        
-        # Scores 
-        tabPanel(title = "Scores", 
-                 id = "deconvScores",
-                 busy(),
-                 DT::dataTableOutput(outputId = "deconv_scores")
         ),
         
         # Markers
         tabPanel(title = "Markers", 
-                 id = "deconvScores",
-                 busy(),
+                 id = "marker_tab",
                  DT::dataTableOutput(outputId = "deconv_markers")
+        ),
+        
+        # Scores 
+        tabPanel(title = "Scores", 
+                 id = "scores_tab",
+                 DT::dataTableOutput(outputId = "deconv_scores")
         ),
         
         # Barplot
         tabPanel(title = "Barchart", 
-                 id = "deconvBarPlot",
-                 busy(),
+                 id = "barplot_tab",
                  plotOutput(outputId = "deconvBoxPlot", 
                             height = "100%")
         )
