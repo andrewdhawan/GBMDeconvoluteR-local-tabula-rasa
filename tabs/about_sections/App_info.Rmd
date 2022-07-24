@@ -6,7 +6,7 @@ output: html_document
 
 Version 1.0 (09/06/2022)
 
-By: [Shoaib Ali Ajaib]()
+By: Shoaib Ali Ajaib
 
 Built using [Shiny](http://www.rstudio.com/shiny) by [RStudio](http://www.rstudio.com)
 

@@ -44,9 +44,9 @@ tabPanel(
       # RUN DECONVOLUTION WELL PANEL
       wellPanel(
         
-        tags$h4("Deconvolution Options"),
+        tags$h4("Deconvolution"),
         
-        helpModal(modal_title ="Deconvoluting Expression Profiles",
+        helpModal(modal_title ="Deconvolution Options",
                   link = "helptumourintrinsic",
                   help_file = includeMarkdown("tools/help/help_tumour_intrinsic.Rmd")),
         

@@ -12,6 +12,12 @@ library(openxlsx)
 
 # Define server logic
 shinyServer(function(input, output, session) {
+
+# DYNAMIC RUN BUTTON -----------------------------------------------------------  
+  
+  output$sessionInfo <- renderPrint({
+    capture.output(sessionInfo())
+  })  
   
 # DYNAMIC RUN BUTTON -----------------------------------------------------------
   
