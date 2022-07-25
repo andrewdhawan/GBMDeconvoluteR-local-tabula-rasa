@@ -38,7 +38,7 @@ table.dataTable.display td + td, table.dataTable.display th + th {
 
 
 #img-id{
-  position: fixed;
+  position: absolute;
   right: 10px;
   top: 5px;
 }
@@ -59,6 +59,22 @@ table.dataTable.display td + td, table.dataTable.display th + th {
   font-size: 20px;
   color: dimgray;
   font-weight: 300;
+}
+  
+  
+b, strong {
+    font-weight: 900;
+    color: #605f5f;
+}
+
+
+.nav-tabs>li>a {
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+    font-weight: 400;
+    color: #afaecc;
 }
   
   
@@ -179,7 +195,7 @@ ol,ul {
 }
 
 .shiny-output-error-validation {
-  color: #3366FF;
+  color: #b0aece;
 }
 
 .shiny-progress {
@@ -283,6 +299,7 @@ ol.outer {
   margin-bottom: 30px;
 }
 
+
 .col-sm-4 {
   max-width: 400px;
 }
@@ -300,6 +317,14 @@ ol.outer {
 .form-group {
   margin-top: 0px;
   margin-bottom: 0px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #fff;
+    cursor: default;
+    background-color: #b0aece;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
 }
 
 

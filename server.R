@@ -263,6 +263,29 @@ shinyServer(function(input, output, session) {
     
     return(user_data$deconv_barplot)
     
+    
+    # plot_data %>%
+    #   filter(population %in% "AC") %>%
+    #   ggplot(aes(fill=population, y=score, x=Mixture)) + 
+    #   geom_bar(stat="identity") +
+    #   scale_fill_manual(values = plot_cols[["AC"]]) +
+    #   # scale_y_continuous(labels = function(x) paste0(x, "%")) +
+    #   # facet_wrap(vars(population),ncol = 1) +
+    #   theme_classic(base_size = 24) +
+    #   ggtitle("AC") +
+    #   xlab("") +
+    #   ylab("Abundance Estimates (Arbitary units)") +
+    #   
+    #   theme(axis.text.x = element_text(angle = 90, hjust = 1),
+    #         legend.title = element_blank(),
+    #         legend.position = "none",
+    #         plot.title = element_text(face = "bold", colour = "black", hjust = 0.5),
+    #         panel.background = element_blank(),
+    #         panel.grid.major = element_blank(),
+    #         panel.grid.minor = element_blank(),
+    #         strip.text.x = element_blank()
+    #   )
+    
   })
   
   

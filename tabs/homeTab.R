@@ -49,7 +49,7 @@ tabPanel(title = "Home", icon = icon("home", lib = "font-awesome"),
              p(class = "outer", 'Once your run has completed, any abundance estimates and markers can be downloded (in various formats) from thier respective tabs.'),
              
              h3(class = "outer", "Can I download the plots?"),
-             p(class = "outer", tags$b('Yes!'),'all plots can be downloaded in various formats (pdf, bmp, jpeg, tiff or jpg) from thier respective tabs.'),
+             p(class = "outer", tags$b('Yes!'),'all plots can be downloaded from thier respective tabs.'),
              
              
              h3(class = "outer", "Can I use the results for my publication?"),
@@ -63,10 +63,10 @@ tabPanel(title = "Home", icon = icon("home", lib = "font-awesome"),
                tags$b(tags$em('About')), 'tab.'),
              p(class = "outer",'Alternativley, you can contactus by ', 
                a("email", href="mailto:gliovis.app@gmail.com"),
-               'or through social media.'),
+               'or through social media.')
              
-             br(), 
-             hr()
+             # br(), 
+             # hr()
          )
          
 )

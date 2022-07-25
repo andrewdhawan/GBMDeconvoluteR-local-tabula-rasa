@@ -18,7 +18,7 @@ shinyUI(
     strong("")
   ),
              collapsible = TRUE,
-             windowTitle = "GBMDeconvoluteR WebApp", 
+             windowTitle = "GBMDeconvoluteR", 
              fluid = TRUE, 
              footer = includeHTML("tools/footer.html"), 
              id = "nav",
