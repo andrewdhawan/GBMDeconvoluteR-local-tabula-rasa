@@ -1,0 +1,11 @@
+The scores returned by GBMDeconvoluteR are expressed in arbitrary units and are proportional to the amount of the estimated cell populations in each given sample. Moreover, each estimated population may have different arbitrary unit.
+
+Due to this, the scores ***cannot*** be used to compare the abundance of different populations within the same sample. However, these scores do allow for comparison of scores (per cell population) between samples.
+
+This is a fundamental difference between MCPCounter (the deconvolution method employed in GBMDeconvoluteR) and other methods such as [Cibersort(X)](https://doi.org/10.1038/s41587-019-0114-2) which estimates the relative composition within an overall sample mixture, and therefore allows comparison between populations within a sample, but not between samples.
+
+These fundamental differences are illustrated in Figure 1.
+
+![](images/Score_interpretation.png)
+
+**Figure 1.** Comparison of MCPCounter and CibersortX scores for different configurations of sample mixture compositions. A.) Schematic representation of three possible cell mixtures. B.) Indicative CibersortX population estimates. C.) Indicative MCPCounter population abundance estimates. We observe that the estimates returned from CibersortX for the first two mixes are similar, as they are expressed as percentages of cells among the screened populations only, regardless of the total infiltration in the sample. Conversely, MCPCounter scores are proportional to the amount of each cell population in the total sample, which allows inter-sample comparison for each population. However, these scores are expressed in a different arbitrary unit for each population, which prevents intra-sample comparison between populations: CibersortX allows for this type of comparison.

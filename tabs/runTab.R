@@ -81,29 +81,29 @@ tabPanel(
       tabsetPanel(
         id = "main_runpage_panel",
         # File upload
-        tabPanel(title = "Uploaded Data",
+        tabPanel(title = "1. Uploaded Data",
                  id = "uploaded_tab",
                  DT::dataTableOutput(outputId = "uploaded_data")
         ),
         
         # Markers
-        tabPanel(title = "Markers", 
+        tabPanel(title = "2. Markers", 
                  id = "marker_tab",
                  DT::dataTableOutput(outputId = "deconv_markers")
         ),
         
         # Scores 
-        tabPanel(title = "Scores", 
+        tabPanel(title = "3. Scores", 
                  id = "scores_tab",
                  DT::dataTableOutput(outputId = "deconv_scores")
         ),
         
         # Barplot
-        tabPanel(title = "Barchart", 
+        tabPanel(title = "4. BarPlot", 
                  id = "barplot_tab",
-                 downloadButton("downloadData"),
                  plotOutput(outputId = "scores_plot", 
-                            height = "100%")
+                            height = "100%"),
+                 downloadButton("downloadData")
         )
       )
     )
