@@ -211,7 +211,7 @@ shinyServer(function(input, output, session) {
       
       need(!is.null(input$upload_file),"Please upload a dataset to view"),
       
-      need(input$deconvolute_button >=1,'Please press "Run" to view')
+      need(input$deconvolute_button >=1,'Please press "Deconvolute" to view')
       
     )
     
@@ -293,7 +293,7 @@ shinyServer(function(input, output, session) {
     
     validate(
     
-      need(input$deconvolute_button >=1,'Please press "Run" to view')
+      need(input$deconvolute_button >=1,'Please press "Deconvolute" to view')
       
     )
     

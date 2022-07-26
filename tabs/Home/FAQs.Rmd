@@ -1,0 +1,30 @@
+---
+title: "FAQs"
+output:
+  html_document:
+    includes:
+      in_header: header.html
+      before_body: doc_prefix.html
+      after_body: doc_suffix.html
+---
+
+<div class = "about_header"> Which gene ID's can I use? </div>
+
+Currently only <a href="http://www.genenames.org"> HGNC-approved </a> gene symbols are supported.
+<br/>
+
+<div class = "about_header"> Can I download my results? </div>
+
+Yes! this is strongly recommended for reproducibility.
+<br/>
+Once your run has completed, any abundance estimates, markers and plots can be downloaded (in various formats) from their respective tabs.
+<br/>
+
+<div class = "about_header"> Can I use the results for my publication? </div>
+
+Of course! If you do so, please include references for any dataset(s) you have used and cite: <a href=""> [place holder for paper ref]</a>
+<br/>
+
+<div class = "about_header"> I have more questions, how can I reach you? </div>
+
+Further information can be found in the <b><i class="fa-solid fa-circle-info"></i> About</b> tab. Alternatively, you can contacts by <a href="mailto:umsaa@leeds.ac.uk"> email </a> or through social media.

@@ -1,0 +1,19 @@
+---
+title: "How Does it Work"
+output:
+  html_document:
+    includes:
+      in_header: header.html
+      before_body: doc_prefix.html
+      after_body: doc_suffix.html
+---
+<script src="https://kit.fontawesome.com/b487b76f1c.js" crossorigin="anonymous"></script>
+
+<ol>
+  <li>Select the <b><i class="fa-solid fa-person-running"></i> Run</b> tab</li>
+  <li>Upload your bulk expression profile data</li>
+  <li>Click <b><i class="fa-solid fa-brain"></i> Deconvolute</b> to obtain your scores</li>
+  <li>View your estimated cell-population abundance scores,            markers and available plots</li>
+</ol>
+
+<!-- This web-app is very easy to use: -->

@@ -53,7 +53,10 @@ tabPanel(
         br(), br(),
         
         radioButtons(inputId = "tumour_intrinsic",
-                     label = strong("Tumour Intrinsic Genes Only:"),
+                     label = tags$div(class = "deconv_option_header",
+                                      "Tumour Intrinsic Genes"
+                                      ),
+                     # ("Tumour Intrinsic Genes Only:"),
                      choices = c("Yes" = TRUE,
                                  "No" = FALSE),
                      inline = TRUE),
@@ -66,7 +69,8 @@ tabPanel(
           condition = "output.finishedUploading",
           
           actionButton(inputId = "deconvolute_button",
-                       label = "Run",
+                       icon = icon("brain",class = "icon"),
+                       label = "Deconvolute",
                        class= "btn-success")
           )
         ),
@@ -99,7 +103,7 @@ tabPanel(
         ),
         
         # Barplot
-        tabPanel(title = "4. BarPlot", 
+        tabPanel(title = "4. Bar Plot", 
                  id = "barplot_tab",
                  plotOutput(outputId = "scores_plot", 
                             height = "100%"),

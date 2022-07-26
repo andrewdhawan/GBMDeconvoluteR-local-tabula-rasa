@@ -9,21 +9,15 @@ shinyUI(
   
   navbarPage(title = div(
     div(
-      id = "img-id",
-      img(src = "test.png",
-          height = "50px",
-          width = "150px"
-          )
+      id = "img-id", img(src = "test.png", height = "60px", width = "170px")) 
     ),
-    strong("")
-  ),
              collapsible = TRUE,
              windowTitle = "GBMDeconvoluteR", 
              fluid = TRUE, 
              footer = includeHTML("tools/footer.html"), 
              id = "nav",
-             source("tabs/homeTab.R", local = TRUE)$value,
-             source("tabs/runTab.R", local = TRUE)$value,
-             source("tabs/aboutTab.R", local = TRUE)$value
+             source("tabs/Home/homeTab.R", local = TRUE)$value,
+             source("tabs/Run/runTab.R", local = TRUE)$value,
+             source("tabs/About/aboutTab.R", local = TRUE)$value
   )
 )
