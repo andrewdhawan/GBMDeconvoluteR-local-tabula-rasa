@@ -63,6 +63,7 @@ shinyServer(function(input, output, session) {
   user_data <- reactiveValues()
   
   uploaded_data <- eventReactive(input$upload_file, {
+
     
     # Load in the user data ----
     
@@ -136,6 +137,8 @@ shinyServer(function(input, output, session) {
 # DECONVOLUTION MARKERS -------------------------------------------------------
   
   get_markers <- reactive({ 
+    
+    Sys.sleep(20)
     
     if(input$tumour_intrinsic){
       
@@ -326,7 +329,19 @@ shinyServer(function(input, output, session) {
   },width = 900, height = 700)
   
   
+
+  
 # DOWNLOAD PLOT ---------------------------------------------------------------  
+  
+  output$download_button <- renderUI({
+    
+    if(input$deconvolute_button >=1 ) {
+      
+      downloadButton(outputId = "downloadData",
+                     label =  'Download Plot')
+    }
+  })
+  
   
   output$downloadData <- downloadHandler(
     

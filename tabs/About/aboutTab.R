@@ -8,7 +8,7 @@ tabPanel(title = "About", icon = icon("info-circle"),
          div(id = "about",
              
              panel_div(class_type = "primary", panel_title = "General",
-                       content = includeMarkdown("tabs/About/How_does_It_work.Rmd")),
+                       content = includeMarkdown("tabs/About/General.Rmd")),
              
          panel_div(class_type = "primary", panel_title = "Data Processing",
                    content = includeMarkdown("tabs/About/Processing.Rmd")),

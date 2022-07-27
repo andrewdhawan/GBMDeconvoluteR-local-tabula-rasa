@@ -93,21 +93,29 @@ tabPanel(
         # Markers
         tabPanel(title = "2. Markers", 
                  id = "marker_tab",
+                 busy(),
                  DT::dataTableOutput(outputId = "deconv_markers")
         ),
         
         # Scores 
         tabPanel(title = "3. Scores", 
                  id = "scores_tab",
+                 busy(),
                  DT::dataTableOutput(outputId = "deconv_scores")
         ),
         
         # Barplot
         tabPanel(title = "4. Bar Plot", 
                  id = "barplot_tab",
+                 busy(),
+                 uiOutput("download_button"),
+                 
+                 # downloadButton(outputId = "downloadData"),
+                 
                  plotOutput(outputId = "scores_plot", 
-                            height = "100%"),
-                 downloadButton("downloadData")
+                            height = "100%",
+                            width = "100%")
+                 
         )
       )
     )

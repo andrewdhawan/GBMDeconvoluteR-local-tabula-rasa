@@ -17,7 +17,7 @@ Currently only <a href="http://www.genenames.org"> HGNC-approved </a> gene symbo
 
 Yes! this is strongly recommended for reproducibility.
 <br/>
-Once your run has completed, any abundance estimates, markers and plots can be downloaded (in various formats) from their respective tabs.
+Once a run has completed, any abundance estimates, markers and plots can be downloaded from their respective tabs.
 <br/>
 
 <div class = "about_header"> Can I use the results for my publication? </div>

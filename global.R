@@ -25,30 +25,9 @@ library(openxlsx)
 
 options(shiny.usecairo = TRUE)
 
+# DATA ----
 
-# DATASETS ----
-
-# datasets <- list(
-#   adult_datasets = c("CGGA","TCGA_GBM", "TCGA_LGG","TCGA_GBMLGG", "Rembrandt", "Gravendeel","Bao", "Kamoun","Ivy_GAP", "LeeY", "Oh","Phillips",
-#                      "Gill", "Freije", "Murat","Gorovets", "POLA_Network", "Reifenberger", "Joo","Ducray", "Walsh", "Nutt", "Kwom", "Vital",
-#                      "Grzmil", "Gleize", "Donson", "Li"),
-#   pediatric_datasets = c("Cavalli", "Northcott_2012","Sturm_2016","Bergthold","Griesinger","Gump","Northcott_2011","Pomeroy",
-#                          "Johnson","Robinson","Witt", "Kool_2014","Henriquez","Hoffman","Kool_2011","Lambert","Paugh", "deBont","Johann",
-#                          "Zakrzewski","Sturm_2012","Buczkowicz","Mascelli","Schwartzentruber","Bender"),
-#   no_surv_dataset = c("Bao","Reifenberger","Gill","Li", "Oh","Ivy_GAP", "Kwom","Walsh","Gleize",
-#                       "Sturm_2016","Henriquez","Bergthold","Buczkowicz","Mascelli","Lambert","Griesinger",
-#                       "Zakrzewski","Bender", "deBont","Gump","Johnson","Northcott_2012","Northcott_2011", "Kool_2011",
-#                       "Johann","Robinson","Kool_2014"),
-#   rnaseq_datasets = c("CGGA", "TCGA_LGG", "TCGA_GBMLGG", "Bao", "Ivy_GAP","Gill")
-# )
-
-# 
-# indata  <- unlist(datasets[1:2],use.names = F)
-# 
-# indata <- list.files("data/datasets", pattern = paste0(indata, collapse = "|"), 
-#                     full.names = T)
-
-
+# Reads in multiple datasets at once
 load_datasets <- function(x){
 
   tryCatch(                       # Applying tryCatch
@@ -89,11 +68,8 @@ load_datasets <- function(x){
   
 }
 
+# load_datasets usage
 # plyr::l_ply(indata, load_datasets)
-
-
-
-# OTHER VARS ----
 
 gene_markers <- list()
 
@@ -126,11 +102,15 @@ options(DT.options  = list(lengthMenu = list(c(20, 50, 100, -1), c('20','50','10
                            ))
 )
 )
-data_table <- function (df,rownames = FALSE, selection = 'none', filter = "none", options = list()) {
-  DT::datatable(df, selection = selection, rownames = rownames, filter = filter, extensions = 'Buttons')
+
+data_table <- function (df,rownames = FALSE, 
+                        selection = 'none', 
+                        filter = "none", 
+                        options = list()) {DT::datatable(df, selection = selection, rownames = rownames, filter = filter, extensions = 'Buttons')
   
 }
 
+# PANEL DIVS ----
 
 panel_div <-function(class_type, panel_title, content) {
   HTML(paste0("<div class='panel panel-", class_type,
@@ -143,37 +123,12 @@ panel_div <-function(class_type, panel_title, content) {
 
 busy <- function (text = "") {
   div(class = "busy",
-      p("Calculating, please wait"),
-      img(src="Rotating_brain.gif"),
-      hr(),
-      p(text)
+      img(src="gifs/Busy_running.gif", 
+          width = "400px", height = "200px"),
+      # hr(),
+      # p(text)
   )
 }
-
-
-# ALTER_FUN_LIST ----
-
-alter_fun_list = list(
-  background = function(x, y, w, h) {
-    grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "#CCCCCC", col = NA))
-  },
-  HOMDEL = function(x, y, w, h) {
-    grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "blue3", col = NA))
-  },
-  HETLOSS = function(x, y, w, h) {
-    grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "cadetblue1", col = NA))
-  },
-  GAIN = function(x, y, w, h) {
-    grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "pink", col = NA))
-  },
-  AMP = function(x, y, w, h) {
-    grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "red", col = NA))
-  },
-  MUT = function(x, y, w, h) {
-    grid.rect(x, y, w-unit(0.5, "mm"), h*0.33, gp = gpar(fill = "#008000", col = NA))
-  }
-)
-
 
 # HELP POPUP ----
 
@@ -208,5 +163,28 @@ helpPopup <- function(content, title = NULL) {
     icon("question-circle")
   )
 }
+
+# ALTER_FUN_LIST ----
+# 
+# alter_fun_list = list(
+#   background = function(x, y, w, h) {
+#     grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "#CCCCCC", col = NA))
+#   },
+#   HOMDEL = function(x, y, w, h) {
+#     grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "blue3", col = NA))
+#   },
+#   HETLOSS = function(x, y, w, h) {
+#     grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "cadetblue1", col = NA))
+#   },
+#   GAIN = function(x, y, w, h) {
+#     grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "pink", col = NA))
+#   },
+#   AMP = function(x, y, w, h) {
+#     grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "red", col = NA))
+#   },
+#   MUT = function(x, y, w, h) {
+#     grid.rect(x, y, w-unit(0.5, "mm"), h*0.33, gp = gpar(fill = "#008000", col = NA))
+#   }
+# )
 
 # END ----

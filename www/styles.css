@@ -84,7 +84,7 @@ table.dataTable.display td + td, table.dataTable.display th + th {
 .dataTables_wrapper {
     position: relative;
     clear: both;
-    margin-top: 45px;
+    margin-top: 25px;
 }  
   
   
@@ -234,6 +234,23 @@ ol,ul {
     margin-bottom: 20px;
 }
 
+
+table {
+  width: 100%;
+}
+
+th, td {
+  padding: 10px;
+  vertical-align: top;
+  
+}
+
+
+.shiny-html-output, shiny-bound-output{
+  font-size: 18px;
+}
+
+
 .shiny-output-error-validation {
   color: #b0aece;
   font-size: 20px;
@@ -334,18 +351,21 @@ ol.outer {
 
 .busy { 
   position:absolute;
-  top: 40%;
-  left: 40%;
-  margin-top: -100px;
-  margin-left: -50px;
+  background: transparent;
   display:none;
-  background: rgba(230, 230, 230, .8);
-  text-align: center;
+  width: 50%;
+  top: 190%;
+  left: 25%;
+  right: 15%;
   padding-top: 20px;
   padding-left: 30px;
   padding-bottom: 40px;
   padding-right: 30px;
   border-radius: 5px;
+  /*margin-top: -100px;
+   text-align: center;
+   margin-left: -50px;*/
+ 
 }
 
 .well {
@@ -372,6 +392,11 @@ ol.outer {
   margin-top: 0px;
   margin-bottom: 0px;
 }
+
+.dataTables_length{
+   padding-right: 25px;
+}
+
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
     color: #fff;
@@ -449,8 +474,6 @@ ol.outer {
   border-color: #b0aece;
   
 }
-
-
 
 
 /*

@@ -4,20 +4,49 @@ runtime: shiny
 output: html_document
 ---
 
-Version 1.0 (09/06/2022)
+<!-- <b>Version:</b> 1.0.0  -->
 
-By: &copy; Shoaib Ali Ajaib (2022) <a rel="license"
+<!-- <b>Date:</b> 09/06/2022 -->
 
-Built using [Shiny](http://www.rstudio.com/shiny) by [RStudio](http://www.rstudio.com)
+<!-- <b>Author:</b> &copy; Shoaib Ali Ajaib (2022) -->
 
-Code available on [GitHub](https://github.com/ajxa/GBMDeconvoluteR)
+<!-- <b>Code:</b> Built using [Shiny](http://www.rstudio.com/shiny) - Code available on [GitHub](https://github.com/ajxa/GBMDeconvoluteR) -->
 
-<div class="about_header">
-  License
-</div>
+<!-- <b>License:</b> This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License  -->
+<!-- <a rel="license" href="http://www.creativecommons.org/licenses/by-nc/4.0/"> -->
+<!-- <img alt="Creative Commons License" style="border-width:0" src="cc.png"/> -->
+<!-- </a> -->
+<!-- GBMDeconvoluteR is free software: you can redistribute it and/or modify it under the terms of the [GNU Affero General Public License](http://opensource.org/licenses/GPL-3.0), version 3, as published by the Free Software Foundation.This application is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.  -->
 
-GBMDeconvoluteR is free software: you can redistribute it and/or modify it under the terms of the [GNU Affero General Public License](http://opensource.org/licenses/GPL-3.0), version 3, as published by the Free Software Foundation.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details. 
+<table>
+<tbody>
+  <tr>
+    <td><b><p>Version</p></b></td>
+    <td><p>1.0.0</p></td>
+  </tr>
+  <tr>
+    <td><b><p>Date</p></b></td>
+    <td><p>09/06/2022</p></td>
+  </tr>
+  <tr>
+    <td><b><p>Author</p></b></td>
+    <td><p>&copy; Shoaib Ali Ajaib (2022)</p></td>
+  </tr>
+  <tr>
+    <td><b><p>Code</p></b></td>
+    <td><p>
+    This app was built using <a href = "http://www.rstudio.com/shiny"> Shiny</a> and the full code is available on <a href = "https://github.com/ajxa/GBMDeconvoluteR"> Github</a>
+    <p></td>
+  </tr>
+  <tr>
+    <td><b><p>License</p></b></td>
+    <td><p>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License <a rel="license" href="http://www.creativecommons.org/licenses/by-nc/4.0/">
+<img alt="Creative Commons License" style="border-width:0" src="cc.png"/>
+</a> 
+    <br>
+    GBMDeconvoluteR is free software: you can redistribute it and/or modify it under the terms of the <a href = "http://opensource.org/licenses/GPL-3.0"> GNU Affero General Public License version 3</a>, as published by the Free Software Foundation.This application is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.</p></td>
+  </tr>
+</tbody>
+</table>
 
- href="http://www.creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="cc.png" /></a><br />This work is licensed under a <a rel="license" href="http://www.creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.    

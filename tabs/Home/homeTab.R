@@ -19,7 +19,7 @@ tabPanel(title = "Home", icon = icon("home", lib = "font-awesome"),
              br(),
              # This line below is for the sliding title 
              # a(href ="https://www.cnio.es/eventos/index.asp?ev=1&cev=136",div(class="simple-ss",id="simple-ss")),
-             img(src = "Main_logo_3.png", width = 1200),
+             img(src = "Logos/Main_logo.png", width = 1150),
              div(class="intro-divider"),
             
              div(class = "lead_head",   
@@ -27,10 +27,9 @@ tabPanel(title = "Home", icon = icon("home", lib = "font-awesome"),
                  ),
              
              div(class = "lead_text",
-                 "A Shiny-based web application for estimating 
-                 the population abundance of tissue-infiltrating 
-                 immune and stromal cell populations within grade 
-                 IV glioblastoma (GBM), brain tumour expression profiles." 
+                 "A web application for estimating the abundance of 
+                 immune, stromal and neoplastic cell populations 
+                 using bulk expression profiles, obtained from grade IV glioblastoma (GBM) samples."
                  ),
              
              panel_div(class_type = "primary", 
