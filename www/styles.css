@@ -96,7 +96,7 @@ b, strong {
 .deconv_option_header{
   font-size: 22px;
   font-weight: 300;
-  color: #969595;
+  color: #0000006e;
 }
 
 
@@ -163,6 +163,13 @@ b, strong {
   font-size:28px;
   font-weight: 300;
   margin-bottom: 50px;
+}
+
+.hr_runpanel {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border: 0;
+    border-top: 1px solid #b0aece;
 }
 
 
@@ -245,6 +252,21 @@ th, td {
   
 }
 
+
+.shiny-input-radiogroup.shiny-input-container-inline label~.shiny-options-group {
+    margin-top: 0px;
+    color: #959595;
+    font-size: 18px;
+}
+
+
+checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+    position: absolute;
+    margin-top: 4px\9;
+    margin-left: -20px;
+    margin-top: 6px;
+    accent-color: #b0aece;
+}
 
 .shiny-html-output, shiny-bound-output{
   font-size: 18px;
@@ -371,6 +393,8 @@ ol.outer {
 .well {
   padding: 12px;
   margin-bottom: 30px;
+  background-color: white;
+  border-color: #b0aece;
 }
 
 
@@ -455,8 +479,10 @@ ol.outer {
 .btn-success.btn {
   border-color: #b0aece;
   color: #b0aece;
-  background-color: whitesmoke;
+  background-color: white;
   font-size: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   width: 100%;
   
 }

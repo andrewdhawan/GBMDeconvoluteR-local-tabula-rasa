@@ -19,7 +19,7 @@ tabPanel(title = "Home", icon = icon("home", lib = "font-awesome"),
              br(),
              # This line below is for the sliding title 
              # a(href ="https://www.cnio.es/eventos/index.asp?ev=1&cev=136",div(class="simple-ss",id="simple-ss")),
-             img(src = "Logos/Main_logo.png", width = 1150),
+             img(src = "Logos/Main_logo_6.png", width = 1150),
              div(class="intro-divider"),
             
              div(class = "lead_head",   

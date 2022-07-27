@@ -138,7 +138,7 @@ shinyServer(function(input, output, session) {
   
   get_markers <- reactive({ 
     
-    Sys.sleep(20)
+    # Sys.sleep(20) # Simulate load process
     
     if(input$tumour_intrinsic){
       

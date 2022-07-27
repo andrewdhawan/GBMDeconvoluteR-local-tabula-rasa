@@ -18,10 +18,10 @@ tabPanel(
     
     sidebarPanel = sidebarPanel(
       
-      br(), 
+      # br(), 
      
       # UPLOAD DATA WELL PANEL 
-      wellPanel(
+      # wellPanel(
         
         tags$h4("Upload Data"),
         
@@ -29,20 +29,21 @@ tabPanel(
                   link = "helpupload", 
                   help_file = includeMarkdown("tools/help/help_uploading.Rmd")
                   ),
-        br(),
+        # br(),
         
         fileInput(inputId = "upload_file", 
                   multiple = FALSE,
                   label = "",
                   buttonLabel = "Browse...",
-                  accept=c(".csv", ".tsv", ".xlsx"))
+                  accept=c(".csv", ".tsv", ".xlsx")),
         
-      ),
+      # ),
+      hr(class = "hr_runpanel"),
       
       br(), 
       
       # RUN DECONVOLUTION WELL PANEL
-      wellPanel(
+      # wellPanel(
         
         tags$h4("Deconvolution"),
         
@@ -60,20 +61,19 @@ tabPanel(
                      choices = c("Yes" = TRUE,
                                  "No" = FALSE),
                      inline = TRUE),
+      
+      # RUN DECONVOLUTION BUTTON
+      conditionalPanel(
         
-        br(),
+        condition = "output.finishedUploading",
         
-        # RUN DECONVOLUTION BUTTON
-        conditionalPanel(
-          
-          condition = "output.finishedUploading",
-          
-          actionButton(inputId = "deconvolute_button",
-                       icon = icon("brain",class = "icon"),
-                       label = "Deconvolute",
-                       class= "btn-success")
-          )
-        ),
+        hr(class = "hr_runpanel"),
+        
+        actionButton(inputId = "deconvolute_button",
+                     icon = icon("brain",class = "icon"),
+                     label = "Deconvolute",
+                     class= "btn-success")
+        )
     ),
     
     # SIDEBAR PANEL END ----
