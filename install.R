@@ -26,10 +26,14 @@
 
 install_gliovis <- function() {
   
-  if (getRversion() < '3.1.1') stop("GlioVis requires R version 3.1.1 or greater.")
+  if (getRversion() < '4.0.0') stop("GlioVis requires R version 4.0.0 or greater.")
   
   msg <- "Note: this will install or update packages needed to run GlioVis Do you want to continue?"
-  continue <- select.list(choices = c("Yes", "No"), title = msg, graphics = FALSE)
+  
+  continue <- select.list(choices = c("Yes", "No"), 
+                          title = msg, 
+                          graphics = FALSE)
+  
   if (continue == "No") {
     message("Installation canceled by user.")
     return(invisible(NULL))

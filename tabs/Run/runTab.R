@@ -107,17 +107,17 @@ tabPanel(
         # Barplot
         tabPanel(title = "4. Bar Plot", 
                  id = "barplot_tab",
+                 
+                 style = c("overflow-x:scroll; max-width: 900px",
+                           "overflow-y:scroll; max-height: 575px"),
                  busy(),
+                 
                  uiOutput("download_button"),
                  
-                 # downloadButton(outputId = "downloadData"),
-                 
-                 plotOutput(outputId = "scores_plot", 
-                            height = "100%",
-                            width = "100%")
-                 
+                 plotOutput(outputId = "scores_plot")
+              
+                 )
         )
-      )
     )
     
     # MAIN PANEL UI END ----

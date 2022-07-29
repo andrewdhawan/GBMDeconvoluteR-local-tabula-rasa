@@ -126,9 +126,12 @@ shinyServer(function(input, output, session) {
     
     user_data$exprs <- df
     
+    user_data$ncols <- ncol(df)
+    
     user_data$refined_neoplastic <- refined_neoplastic
     
     user_data$TI_refined_neoplastic <- TI_refined_neoplastic
+    
     
     return(df)
     
@@ -252,84 +255,69 @@ shinyServer(function(input, output, session) {
       
       geom_bar(position="fill", stat="identity") +
       
-      scale_fill_manual(values = plot_cols) +
-      # scale_y_continuous(labels = function(x) paste0(x, "%")) +
-      theme_classic(base_size = 24) +
       ggtitle("") +
-      xlab("") +
-      ylab("Abundance Estimates (Arbitary units)") +
       
-      theme(axis.text.x = element_text(angle = 90, hjust = 1),
-            legend.title = element_blank(),
-            plot.title = element_text(face = "bold", colour = "black", hjust = 0.5)
+      xlab("") +
+      
+      ylab("Abundance Estimates (Arbitary units)")  +
+      
+      scale_fill_manual(values = plot_cols) +
+      
+      coord_flip() +
+      
+      theme_classic(base_size = 24) +
+      
+      
+      theme(axis.text.x = element_text(face = "bold", hjust = 0.5, vjust = 0.5),
+            axis.title.x = element_text(vjust = 0.5),
+            legend.title = element_blank()
       )
     
     return(user_data$deconv_barplot)
     
     
-    # plot_data %>%
-    #   filter(population %in% "AC") %>%
-    #   ggplot(aes(fill=population, y=score, x=Mixture)) + 
-    #   geom_bar(stat="identity") +
-    #   scale_fill_manual(values = plot_cols[["AC"]]) +
-    #   # scale_y_continuous(labels = function(x) paste0(x, "%")) +
-    #   # facet_wrap(vars(population),ncol = 1) +
-    #   theme_classic(base_size = 24) +
-    #   ggtitle("AC") +
-    #   xlab("") +
-    #   ylab("Abundance Estimates (Arbitary units)") +
-    #   
-    #   theme(axis.text.x = element_text(angle = 90, hjust = 1),
-    #         legend.title = element_blank(),
-    #         legend.position = "none",
-    #         plot.title = element_text(face = "bold", colour = "black", hjust = 0.5),
-    #         panel.background = element_blank(),
-    #         panel.grid.major = element_blank(),
-    #         panel.grid.minor = element_blank(),
-    #         strip.text.x = element_blank()
-    #   )
-    
   })
   
   
-  output$scores_plot <- renderPlot({
+  
+  output$scores_plot <- renderPlot(
+    
+    expr = {
     
     validate(
-    
+      
+      need(!is.null(input$upload_file),"Please upload a dataset to view"),
+      
       need(input$deconvolute_button >=1,'Please press "Deconvolute" to view')
       
     )
     
     deconv_scores_plot()
     
-    # user_data$scores %>%
-    #   
-    #   tidyr::pivot_longer(cols = -Mixture,
-    #                names_to = "population", 
-    #                values_to = "score") %>%
-    #   
-    #   dplyr::mutate(across(population, as.factor)) %>%
-    #   
-    #   ggplot(aes(fill=population, y=score, x=Mixture)) + 
-    #   
-    #   geom_bar(position="fill", stat="identity") +
-    #   
-    #   scale_fill_manual(values = plot_cols) +
-    #   # scale_y_continuous(labels = function(x) paste0(x, "%")) +
-    #   theme_classic(base_size = 24) +
-    #   ggtitle("") +
-    #   xlab("") +
-    #   ylab("Abundance Estimates (Arbitary units)") +
-    #   
-    #   theme(axis.text.x = element_text(angle = 90, hjust = 1),
-    #         legend.title = element_blank(),
-    #         plot.title = element_text(face = "bold", colour = "black", hjust = 0.5)
-    #   )
-    
-  },width = 900, height = 700)
-  
-  
+    }, 
+    width = 900, 
+    height = function(){
+      
+      validate(
+        
+        need(!is.null(input$upload_file),"Please upload a dataset to view"),
+        
+        need(input$deconvolute_button >=1,'Please press "Deconvolute" to view')
+        
+      )
 
+      
+      if(ncol(user_data$exprs) < 15){
+        
+        return(575)
+        
+      }else return(50 * ncol(user_data$exprs))
+    
+      
+    }
+    
+    ) 
+ 
   
 # DOWNLOAD PLOT ---------------------------------------------------------------  
   
@@ -337,7 +325,7 @@ shinyServer(function(input, output, session) {
     
     if(input$deconvolute_button >=1 ) {
       
-      downloadButton(outputId = "downloadData",
+      downloadButton(outputId = "downloadData", 
                      label =  'Download Plot')
     }
   })
@@ -347,18 +335,33 @@ shinyServer(function(input, output, session) {
     
     filename = function(){
       
-      paste(format(Sys.time(), "%d-%m-%Y %H_%M_%S"),
-            "_GBMDeconvoluteR_scores.pdf", sep = "")
+      paste(format(Sys.time(), "%d-%m-%Y %H-%M-%S"),
+            "_GBMDeconvoluteR_scores.svg", sep = "")
     },
     
-    
     content = function(file) {
-      ggsave(file, plot = deconv_scores_plot(), 
-             device = "pdf", 
-             width = 29.7, height = 21, units = "cm", dpi = 320)
+      
+      # Dynamically change the height of the rendered plot
+      height = function(){
+
+        if(ncol(user_data$exprs) <= 4){
+
+          return(3.5)
+
+        }else return(0.875 * ncol(user_data$exprs))
+
+      }
+      
+      ggsave(file, plot = deconv_scores_plot(),
+             width = 10, 
+             height = height(),
+             units = "in",
+             limitsize = FALSE
+             )
       
     }
-  )
+  
+    )
   
   
 })
