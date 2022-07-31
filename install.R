@@ -43,7 +43,7 @@ install_GBMDeconvoluteR <- function() {
   
   # install needed packages from CRAN
   pkg <- c("shiny", "shinyBS", "tidyverse", "DT", "openxlsx",
-           "devtools","curl")
+           "markdown","devtools","curl")
   
   new.pkg <- pkg[!(pkg %in% installed.packages())]
   

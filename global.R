@@ -21,6 +21,7 @@ library(tidyverse)
 library(MCPcounter)
 library(tinyscalop)
 library(openxlsx)
+library(markdown)
 
 
 options(shiny.usecairo = TRUE)
