@@ -1,9 +1,5 @@
 
-<p float="left">
-  <img src="www/Logos/logo_name.png" width="600" style="margin-top:100px;"/>
-  <img src="www/gifs/Busy_running.gif" width="300" style="margin-left: -20px;"/> 
-</p>
-
+<img src="www/gifs/Header_gif.gif" width="100%"/>
 
 <h3 style="font-size: 21px; font-weight: 300;font-family: sans-serif;">
 A Shiny-based web application for estimating the abundance of
