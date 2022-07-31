@@ -284,13 +284,18 @@ shinyServer(function(input, output, session) {
     
     expr = {
     
-    validate(
+      req(!is.null(input$upload_file),
+          input$deconvolute_button >=1)
       
-      need(!is.null(input$upload_file),"Please upload a dataset to view"),
-      
-      need(input$deconvolute_button >=1,'Please press "Deconvolute" to view')
-      
-    )
+      # validate(
+      #   
+      #   need(!is.null(input$upload_file),"Please upload a dataset to view"),
+      #   
+      #   need(input$deconvolute_button >=1,'Please press "Deconvolute" to view'),
+      #   
+      #   errorClass = "download_tab" 
+      #   
+      # )
     
     deconv_scores_plot()
     
@@ -298,13 +303,9 @@ shinyServer(function(input, output, session) {
     width = 900, 
     height = function(){
       
-      validate(
-        
-        need(!is.null(input$upload_file),"Please upload a dataset to view"),
-        
-        need(input$deconvolute_button >=1,'Please press "Deconvolute" to view')
-        
-      )
+      
+      req(!is.null(input$upload_file),
+          input$deconvolute_button >=1)
 
       
       if(ncol(user_data$exprs) < 15){

@@ -272,6 +272,11 @@ checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio inp
   font-size: 18px;
 }
 
+.shiny-output-error-download_tab {
+  color: pink;
+  font-size: 20px;
+}
+
 
 .shiny-output-error-validation {
   color: #b0aece;
