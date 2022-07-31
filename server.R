@@ -327,18 +327,46 @@ shinyServer(function(input, output, session) {
       
       downloadButton(outputId = "downloadData", 
                      label =  'Download Plot')
+      
     }
+  })
+  
+  
+  output$filetype_select <- renderUI({
+    
+    if(input$deconvolute_button >=1 ) {
+      
+      selectInput(inputId = "file_format",
+                  label = NULL, 
+                  choices=c("pdf","svg","png","tiff","ps"), 
+                  selected = "pdf")
+      
+    }
+    
+  })
+  
+  
+  fn_downloadname <- reactive({
+    
+    outfile_name <- paste(format(Sys.time(), "%d-%m-%Y %H-%M-%S"),
+                         "_GBMDeconvoluteR_scores", sep = "")
+    
+    filename <- switch(input$file_format,
+                       pdf = paste0(outfile_name, ".pdf", sep=""),
+                       svg = paste0(outfile_name, ".svg", sep=""),
+                       png =  paste0(outfile_name, ".png", sep=""),
+                       tiff = paste0(outfile_name, ".tiff", sep=""),
+                       ps = paste0(outfile_name, ".ps", sep="")
+                       )
+    return(filename)
+    
   })
   
   
   output$downloadData <- downloadHandler(
     
-    filename = function(){
+    filename = fn_downloadname,
       
-      paste(format(Sys.time(), "%d-%m-%Y %H-%M-%S"),
-            "_GBMDeconvoluteR_scores.svg", sep = "")
-    },
-    
     content = function(file) {
       
       # Dynamically change the height of the rendered plot

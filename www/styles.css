@@ -467,6 +467,33 @@ ol.outer {
 }
 
 
+.btn-download> .btn-default{
+    color: #696969;
+    background-color: #fff;
+    border-color: #b0aece;
+    margin-top: -24px;
+    font-weight: 500;
+}
+
+
+.selectize-control.single .selectize-input, .selectize-control.single .selectize-input input{
+    cursor: pointer;
+    border-color: #b0aece;
+
+}
+
+
+.selectize-input.focus {
+  
+  border-color: #b0aece;
+  outline: 0;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+
+  
+}
+
+
 
 .btn-default {
     color: #696969;

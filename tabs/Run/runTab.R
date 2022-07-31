@@ -112,7 +112,15 @@ tabPanel(
                            "overflow-y:scroll; max-height: 575px"),
                  busy(),
                  
-                 uiOutput("download_button"),
+                 uiOutput("filetype_select", 
+                          style = "display: inline-block; 
+                                   border-color: #b0aece;
+                                   width: 100px; 
+                                   margin-top: 15px;" ),
+                 
+                 uiOutput("download_button",
+                          class = "btn-download",
+                          style = "display: inline-block;"),
                  
                  plotOutput(outputId = "scores_plot")
               
