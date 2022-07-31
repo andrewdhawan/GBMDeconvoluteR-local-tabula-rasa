@@ -27,7 +27,7 @@ tabPanel(
         
         helpModal(modal_title ="Uploading Data",
                   link = "helpupload", 
-                  help_file = includeMarkdown("tools/help/help_uploading.Rmd")
+                  help_file = includeMarkdown("tabs/Run/help/help_uploading.Rmd")
                   ),
         # br(),
         
@@ -49,7 +49,7 @@ tabPanel(
         
         helpModal(modal_title ="Deconvolution Options",
                   link = "helptumourintrinsic",
-                  help_file = includeMarkdown("tools/help/help_tumour_intrinsic.Rmd")),
+                  help_file = includeMarkdown("tabs/Run/help/help_tumour_intrinsic.Rmd")),
         
         br(), br(),
         

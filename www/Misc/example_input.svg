@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1847"
+   width="816"
+   height="1056"
+   viewBox="0 0 816 1056"
+   sodipodi:docname="example_input.svg"
+   inkscape:version="1.2 (dc2aeda, 2022-05-15)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1851">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath1863">
+      <path
+         d="M 51.36,570.7 H 388.03 V 737.04 H 51.36 Z"
+         clip-rule="evenodd"
+         id="path1861" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath2051">
+      <path
+         d="m 49.44,568.66 h 340.63 v 170.3 H 49.44 Z"
+         clip-rule="evenodd"
+         id="path2049" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="namedview1849"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.69186103"
+     inkscape:cx="239.20989"
+     inkscape:cy="145.98307"
+     inkscape:window-width="1440"
+     inkscape:window-height="872"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g1855">
+    <inkscape:page
+       x="0"
+       y="0"
+       id="page1853"
+       width="816"
+       height="1056" />
+  </sodipodi:namedview>
+  <g
+     id="g1855"
+     inkscape:groupmode="layer"
+     inkscape:label="Page 1"
+     transform="matrix(1.3333333,0,0,-1.3333333,0,1056)">
+    <g
+       id="g2045"
+       transform="translate(3.1688108,-196.46627)">
+      <g
+         id="g2047"
+         clip-path="url(#clipPath2051)" />
+    </g>
+    <g
+       id="g2625"
+       transform="translate(-31.497258,186.36378)"
+       inkscape:export-filename="OneDrive - University of Leeds/GBMDeconvoluteR/www/example_input.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <path
+         d="m 50.4,663.1 h 0.96 V 738 H 50.4 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.669103"
+         id="path2055"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="m 117.74,663.93 h 0.96 v 73.11 h -0.96 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.662964"
+         id="path2059"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="m 185.06,664.06001 h 0.96001 V 737.04 H 185.06 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.662374"
+         id="path2063"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="m 252.41,663.1 h 0.95999 v 73.94 H 252.41 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.666717"
+         id="path2067"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="m 319.73,663.1 h 0.98401 v 73.94 H 319.73 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.666717"
+         id="path2071"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="m 387.07,663.1 h 0.96002 v 73.94 H 387.07 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.666717"
+         id="path2075"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="M 51.42,737.94 H 387.97"
+         style="fill:none;stroke:#000000;stroke-width:0.14;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+         id="path2077"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="M 51.36,737.04 H 388.03 V 738 H 51.36 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         id="path2079"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="M 51.42,719.46 H 387.97"
+         style="fill:none;stroke:#000000;stroke-width:0.14;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+         id="path2081"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="m 51.36,718.56 h 336.67 v 0.96 H 51.36 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         id="path2083"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="M 51.42,700.96 H 387.97"
+         style="fill:none;stroke:#000000;stroke-width:0.14;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+         id="path2085"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="m 51.36,700.06 h 336.67 v 0.96 H 51.36 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         id="path2087"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="M 51.42,682.48 H 387.97"
+         style="fill:none;stroke:#000000;stroke-width:0.14;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+         id="path2089"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="m 51.36,681.58 h 336.67 v 0.96 H 51.36 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         id="path2091"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="M 51.42,664 H 387.97"
+         style="fill:none;stroke:#000000;stroke-width:0.14;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+         id="path2093"
+         transform="translate(3.1688108,-196.46625)" />
+      <path
+         d="m 50.88,663.1 h 337.15002 v 0.96001 H 50.88 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.00071"
+         id="path2095"
+         transform="translate(3.1688108,-196.46625)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;opacity:1;fill:#000000;stroke:#000000;stroke-width:0.737008;stroke-linecap:square"
+         x="85.666473"
+         y="-527.5238"
+         id="text2263"
+         transform="scale(1,-1)"><tspan
+           sodipodi:role="line"
+           id="tspan2261"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.737008"
+           x="85.666473"
+           y="-527.5238">Gene 1</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;opacity:1;fill:#000000;stroke:#000000;stroke-width:0.737008;stroke-linecap:square"
+         x="156.97269"
+         y="-527.5238"
+         id="text2267"
+         transform="scale(1,-1)"><tspan
+           sodipodi:role="line"
+           id="tspan2265"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.737008"
+           x="158.63968"
+           y="-527.5238"><tspan
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif"
+   id="tspan2501">Sample 1</tspan>  </tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;opacity:1;fill:#000000;stroke:#000000;stroke-width:0.737008;stroke-linecap:square"
+         x="85.528778"
+         y="-476.71353"
+         id="text2357"
+         transform="scale(1,-1)"><tspan
+           sodipodi:role="line"
+           id="tspan2355"
+           style="fill:#000000;stroke-width:0.737008"
+           x="85.528778"
+           y="-476.71353">...</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;opacity:1;fill:#000000;stroke:#000000;stroke-width:0.737008;stroke-linecap:square"
+         x="223.98419"
+         y="-527.5238"
+         id="text2483"
+         transform="scale(1,-1)"><tspan
+           sodipodi:role="line"
+           id="tspan2481"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.737008"
+           x="225.65118"
+           y="-527.5238"><tspan
+   id="tspan2507"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0.63px">Sample </tspan><tspan
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif"
+   id="tspan2479">2</tspan>  </tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;opacity:1;fill:#000000;stroke:#000000;stroke-width:0.737008;stroke-linecap:square"
+         x="292.62613"
+         y="-527.52673"
+         id="text2491"
+         transform="scale(1,-1)"><tspan
+           sodipodi:role="line"
+           id="tspan2489"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.737008"
+           x="294.29312"
+           y="-527.52673"><tspan
+   id="tspan2511"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0.63px">Sample </tspan><tspan
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif"
+   id="tspan2487">3</tspan>  </tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;opacity:1;fill:#000000;stroke:#000000;stroke-width:0.737008;stroke-linecap:square"
+         x="357.6329"
+         y="-530.99548"
+         id="text2499"
+         transform="scale(1,-1)"><tspan
+           sodipodi:role="line"
+           id="tspan2497"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.737008"
+           x="359.2999"
+           y="-530.99548">...  </tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;opacity:1;fill:#000000;stroke:#000000;stroke-width:0.737008;stroke-linecap:square"
+         x="85.666473"
+         y="-509.31155"
+         id="text2515"
+         transform="scale(1,-1)"><tspan
+           sodipodi:role="line"
+           id="tspan2513"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.737008"
+           x="85.666473"
+           y="-509.31155">Gene 2</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;opacity:1;fill:#000000;stroke:#000000;stroke-width:0.737008;stroke-linecap:square"
+         x="85.666473"
+         y="-489.12256"
+         id="text2519"
+         transform="scale(1,-1)"><tspan
+           sodipodi:role="line"
+           id="tspan2517"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.737008"
+           x="85.666473"
+           y="-489.12256">Gene 3</tspan></text>
+    </g>
+  </g>
+</svg>
