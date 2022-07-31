@@ -164,27 +164,5 @@ helpPopup <- function(content, title = NULL) {
   )
 }
 
-# ALTER_FUN_LIST ----
-# 
-# alter_fun_list = list(
-#   background = function(x, y, w, h) {
-#     grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "#CCCCCC", col = NA))
-#   },
-#   HOMDEL = function(x, y, w, h) {
-#     grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "blue3", col = NA))
-#   },
-#   HETLOSS = function(x, y, w, h) {
-#     grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "cadetblue1", col = NA))
-#   },
-#   GAIN = function(x, y, w, h) {
-#     grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "pink", col = NA))
-#   },
-#   AMP = function(x, y, w, h) {
-#     grid.rect(x, y, w-unit(0.5, "mm"), h-unit(0.5, "mm"), gp = gpar(fill = "red", col = NA))
-#   },
-#   MUT = function(x, y, w, h) {
-#     grid.rect(x, y, w-unit(0.5, "mm"), h*0.33, gp = gpar(fill = "#008000", col = NA))
-#   }
-# )
 
 # END ----

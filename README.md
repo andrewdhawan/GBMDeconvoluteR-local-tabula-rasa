@@ -1,4 +1,4 @@
-<img src="www/Logos/Main_logo.png" width="1150"/>
+<img src="www/Logos/Main_logo_6.png" width="1150"/>
 
 <h3>
 GBMDeconvoluteR is a Shiny-based web application for estimating the abundance of
