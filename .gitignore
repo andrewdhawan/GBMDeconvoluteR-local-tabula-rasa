@@ -42,4 +42,11 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
+# R profile files
+.Rprofile
+
+# Renv files
+renv/
+
+
 
