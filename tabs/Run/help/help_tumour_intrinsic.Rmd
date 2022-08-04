@@ -6,7 +6,6 @@ editor_options:
     wrap: 72
 ---
 
-**Tumour Intrinsic Genes**
 
 GBM tumour cells are closely related and constantly interact with their
 micro-environment, to promotes tumour cell transcriptomic adaptability
@@ -20,7 +19,3 @@ subtypes designated as proneural, mesenchymal, and classical. By
 selecting ***YES*** (Default), the neoplastic population marker genes
 will be filtered to include only those genes which are considered to be
 "*tumour-intrinsic*" in GBM.
-
-![](images/Tumour_intrinsic_figure.png)
-
-------------------------------------------------------------------------

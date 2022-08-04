@@ -92,16 +92,26 @@ plot_cols <- readRDS("data/plot_colors.rds")
 
 # DATA TABLE ----
 
-options(DT.options  = list(lengthMenu = list(c(20, 50, 100, -1), c('20','50','100','All')), 
+options(DT.options  = list(lengthMenu = list(c(50, 100, -1), 
+                                             c('50','100','All')), 
+                           
+                           buttons = list('copy', 
+                                          list(extend = 'collection',
+                                               buttons = c('csv', 'excel', 'pdf'),
+                                               text = 'Download')
+                                          ),
                            serverSide = FALSE,
                            pagingType = "full",
                            dom = 'lfBrtip',
-                           buttons = list('copy', 'print', list(
-                             extend = 'collection',
-                             buttons = c('csv', 'excel', 'pdf'),
-                             text = 'Download'
-                           ))
-)
+                           width = "100%",
+                           height = "100%",
+                           scrollX = TRUE,
+                           scrollY = "475px",
+                           scrollCollapse = TRUE, 
+                           orderClasses = TRUE, 
+                           autoWidth = FALSE,
+                           search = list(regex = TRUE)
+                           )
 )
 
 data_table <- function (df,rownames = FALSE, 

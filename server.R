@@ -19,33 +19,36 @@ shinyServer(function(input, output, session) {
     capture.output(sessionInfo())
   })  
   
+# HELP MODALS  -----------------------------------------------------------------  
+
+  # File Uploads
+  observeEvent(input$upload_help, {
+    
+    showModal(
+      
+      modalDialog( title = "File Uploads",
+                   includeMarkdown("tabs/Run/help/help_uploading.Rmd"),
+                   footer = NULL,
+                   easyClose = TRUE, 
+                   fade = TRUE)
+    )
+  })  
+  
+  
+  # Tumour Intrinsic Genes
+  observeEvent(input$TI_genes_help, {
+  
+    showModal(
+      
+      modalDialog( title = "Tumour Intrinsic Genes",
+                   includeMarkdown("tabs/Run/help/help_tumour_intrinsic.Rmd"),
+                   footer = NULL,
+                   easyClose = TRUE, 
+                   fade = TRUE)
+      )
+  })  
+  
 # DYNAMIC RUN BUTTON -----------------------------------------------------------
-  
-  # Render the uploaded table
-  output$uploaded_data <- DT::renderDataTable({
-    
-    # input$upload_file will be NULL initially. After the user selects
-    # and uploads a file, this data will be displayed in the uploaded data tab 
-    
-    validate(
-      need(!is.null(input$upload_file),"Please upload a dataset to view")
-    )
-    
-    
-    datatable(uploaded_data(), 
-              rownames = FALSE, 
-              options = list(scrollX = TRUE, 
-                             scrollY = 300,
-                             # paging = FALSE,
-                             pageLength = 20,
-                             scrollCollapse = TRUE, 
-                             orderClasses = TRUE, 
-                             autoWidth = FALSE,
-                             search = list(regex = TRUE)
-              )
-    )
-  }, server = TRUE)
-  
   
   # Reactivity required to display the Run button after upload
   output$finishedUploading <- reactive({
@@ -137,6 +140,23 @@ shinyServer(function(input, output, session) {
     
   }) 
   
+  # Render the uploaded table
+  output$uploaded_data <- DT::renderDataTable({
+    
+    # input$upload_file will be NULL initially. After the user selects
+    # and uploads a file, this data will be displayed in the uploaded data tab 
+    
+    validate(
+      need(!is.null(input$upload_file),"Please upload a dataset to view")
+    )
+    
+    
+    datatable(uploaded_data(), 
+              rownames = FALSE )
+    
+  }, server = TRUE)
+  
+  
 # DECONVOLUTION MARKERS -------------------------------------------------------
   
   get_markers <- reactive({ 
@@ -185,17 +205,9 @@ shinyServer(function(input, output, session) {
     
     datatable(get_markers(),
               rownames = FALSE, 
-              extensions = c("FixedColumns", 'Buttons'),
-              options = list(scrollX = TRUE, 
-                             scrollY = 300,
-                             # paging = FALSE,
-                             pageLength = 20,
-                             scrollCollapse = TRUE, 
-                             orderClasses = TRUE, 
-                             autoWidth = FALSE,
-                             search = list(regex = TRUE)
+              extensions = c("FixedColumns", 'Buttons')
               )
-    )
+    
   }, server = TRUE)
   
   
@@ -209,6 +221,7 @@ shinyServer(function(input, output, session) {
     return(user_data$scores)
     
     })
+  
   
   # Render the Deconvolution scores
   output$deconv_scores <- DT::renderDataTable({
@@ -224,19 +237,9 @@ shinyServer(function(input, output, session) {
     
     datatable(scores(),
               rownames = FALSE, 
-              extensions = c("FixedColumns", 'Buttons'),
-              options = list(scrollX = TRUE, 
-                             scrollY = 300,
-                             # paging = FALSE,
-                             pageLength = 20,
-                             scrollCollapse = TRUE, 
-                             orderClasses = TRUE, 
-                             autoWidth = FALSE,
-                             search = list(regex = TRUE)
+              extensions = c("FixedColumns", 'Buttons')
               )
-    )
   }, server = TRUE)
-  
   
   
 # PLOT SCORES ------------------------------------------------------------------
@@ -279,7 +282,6 @@ shinyServer(function(input, output, session) {
   })
   
   
-  
   output$scores_plot <- renderPlot(
     
     expr = {
@@ -311,12 +313,12 @@ shinyServer(function(input, output, session) {
       
       if(ncol(user_data$exprs) < 15){
         
-        return(575)
+        return(475)
         
       }else return(50 * ncol(user_data$exprs))
     
       
-    }
+    },
     
     ) 
  
