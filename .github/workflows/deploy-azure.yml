@@ -1,0 +1,44 @@
+on: 
+  push:
+    branches:
+      - main
+
+name: deploy container to azure web app
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    # checkout the repo
+    - name: 'Checkout GitHub Action' 
+      uses: actions/checkout@main
+    
+    # login to azure within the github action
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    # login to the private container registry
+    # build the docker container
+    # push the newest version to the container registry
+    - uses: azure/docker-login@v1
+      with:
+        login-server: gbmdeconvoluter.azurecr.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        docker build . -t gbmdeconvoluter.azurecr.io/gbmconvoluter:${{ github.sha }}
+        docker push gbmdeconvoluter.azurecr.io/gbmconvoluter:${{ github.sha }}     
+      
+    # deploy the newest container image 
+    # to the azure web app
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'gbmdeconvoluter'
+        images: 'gbmdeconvoluter.azurecr.io/gbmconvoluter:${{ github.sha }}'
+    
+    # logout from azure
+    - name: Azure logout
+      run: |
+        az logout
