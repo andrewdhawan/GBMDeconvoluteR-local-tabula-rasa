@@ -22,7 +22,7 @@ library(MCPcounter)
 library(tinyscalop)
 library(openxlsx)
 library(markdown)
-
+library(shinycssloaders)
 
 options(shiny.usecairo = TRUE)
 

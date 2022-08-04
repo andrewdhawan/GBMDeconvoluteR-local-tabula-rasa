@@ -75,7 +75,7 @@ tabPanel(
                      id = "uploaded_tab",
                      DT::dataTableOutput(outputId = "uploaded_data") %>% 
                        
-                       withSpinner(image = "gifs/Busy_running.gif",
+                     shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
                                    image.width = "50%")
             ),
             
@@ -84,7 +84,7 @@ tabPanel(
                      id = "marker_tab",
                      DT::dataTableOutput(outputId = "deconv_markers") %>% 
                        
-                       withSpinner(image = "gifs/Busy_running.gif",
+                     shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
                                    image.width = "50%")
             ),
             
@@ -93,7 +93,7 @@ tabPanel(
                      id = "scores_tab",
                      DT::dataTableOutput(outputId = "deconv_scores") %>% 
                        
-                       withSpinner(image = "gifs/Busy_running.gif",
+                     shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
                                    image.width = "50%")
             ),
             
@@ -115,7 +115,7 @@ tabPanel(
                      
                      plotOutput(outputId = "scores_plot") %>% 
                        
-                       withSpinner(image = "gifs/Busy_running.gif",
+                    shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
                                    image.width = "50%")
                      
             )
