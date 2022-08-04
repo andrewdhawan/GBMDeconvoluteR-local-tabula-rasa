@@ -8,7 +8,7 @@ library(tidyverse)
 library(MCPcounter)
 library(tinyscalop)
 library(openxlsx)
-# library(rsconnect)
+library(shinycssloaders)
 
 # Define server logic
 shinyServer(function(input, output, session) {
@@ -297,6 +297,7 @@ shinyServer(function(input, output, session) {
       #   
       # )
     
+     
     deconv_scores_plot()
     
     }, 

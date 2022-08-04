@@ -3,6 +3,8 @@ title: "Uploading Data"
 output: html_document
 ---
 
+***The maximum file upload size is: 200Mb***
+
 Bulk expression profiles can be uploaded in **.csv**, **.tsv** or **.xlsx** file formats, with samples in columns and genes in rows. The first column of the data must also contain the gene symbols:
 
 <br/>

@@ -87,31 +87,37 @@ tabPanel(
         # File upload
         tabPanel(title = "1. Uploaded Data",
                  id = "uploaded_tab",
-                 DT::dataTableOutput(outputId = "uploaded_data")
+                 DT::dataTableOutput(outputId = "uploaded_data") %>% 
+                   
+                   withSpinner(image = "gifs/Busy_running.gif",
+                               image.width = "50%")
         ),
         
         # Markers
         tabPanel(title = "2. Markers", 
                  id = "marker_tab",
-                 busy(),
-                 DT::dataTableOutput(outputId = "deconv_markers")
+                 DT::dataTableOutput(outputId = "deconv_markers") %>% 
+                   
+                   withSpinner(image = "gifs/Busy_running.gif",
+                               image.width = "50%")
         ),
         
         # Scores 
         tabPanel(title = "3. Scores", 
                  id = "scores_tab",
-                 busy(),
-                 DT::dataTableOutput(outputId = "deconv_scores")
+                 DT::dataTableOutput(outputId = "deconv_scores") %>% 
+                   
+                   withSpinner(image = "gifs/Busy_running.gif",
+                               image.width = "50%")
         ),
         
-        # Barplot
+        # Bar plot
         tabPanel(title = "4. Bar Plot", 
                  id = "barplot_tab",
                  
                  style = c("overflow-x:scroll; max-width: 900px",
                            "overflow-y:scroll; max-height: 575px"),
-                 busy(),
-                 
+            
                  uiOutput("filetype_select", 
                           style = "display: inline-block; 
                                    border-color: #b0aece;
@@ -122,7 +128,12 @@ tabPanel(
                           class = "btn-download",
                           style = "display: inline-block;"),
                  
-                 plotOutput(outputId = "scores_plot")
+                 # busy(),
+                 
+                 plotOutput(outputId = "scores_plot") %>% 
+                   
+                   withSpinner(image = "gifs/Busy_running.gif",
+                               image.width = "50%")
               
                  )
         )
