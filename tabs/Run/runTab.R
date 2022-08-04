@@ -58,20 +58,8 @@ tabPanel(
                        choices = c("Yes" = TRUE,
                                    "No" = FALSE),
                        
-                       inline = TRUE),
+                       inline = TRUE)
           
-          # RUN DECONVOLUTION BUTTON
-          conditionalPanel(
-            
-            condition = "output.finishedUploading",
-            
-            hr(class = "hr_runpanel"),
-            
-            actionButton(inputId = "deconvolute_button",
-                         icon = icon("brain",class = "icon"),
-                         label = "Deconvolute",
-                         class= "btn-success")
-          )
         ),
         
         # SIDEBAR PANEL END ----
@@ -124,8 +112,6 @@ tabPanel(
                      uiOutput("download_button",
                               class = "btn-download",
                               style = "display: inline-block;"),
-                     
-                     # busy(),
                      
                      plotOutput(outputId = "scores_plot") %>% 
                        

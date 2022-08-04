@@ -161,8 +161,8 @@ shinyServer(function(input, output, session) {
   
   get_markers <- reactive({ 
     
-    # Sys.sleep(20) # Simulate load process
-    
+    req(uploaded_data())
+
     if(input$tumour_intrinsic){
       
       deconv_markers <-  user_data$TI_refined_neoplastic %>% 
@@ -200,7 +200,7 @@ shinyServer(function(input, output, session) {
     validate(
       
       need(!is.null(input$upload_file),"Please upload a dataset to view"),
-    
+      
     )
     
     datatable(get_markers(),
@@ -215,13 +215,16 @@ shinyServer(function(input, output, session) {
   
   scores  <-  reactive({
     
-    user_data$scores <- tinyscalop::MCPCounter_score(x = user_data$exprs, 
+ 
+    req(get_markers())
+    
+    scores <- tinyscalop::MCPCounter_score(x = user_data$exprs, 
                                                      gene_pops = user_data$deconv_markers, 
                                                      out_digits = 2)
-    return(user_data$scores)
+    return(scores)
     
-    })
-  
+    }) 
+    
   
   # Render the Deconvolution scores
   output$deconv_scores <- DT::renderDataTable({
@@ -230,15 +233,13 @@ shinyServer(function(input, output, session) {
       
       need(!is.null(input$upload_file),"Please upload a dataset to view"),
       
-      need(input$deconvolute_button >=1,'Please press "Deconvolute" to view')
-      
     )
-    
     
     datatable(scores(),
               rownames = FALSE, 
               extensions = c("FixedColumns", 'Buttons')
               )
+    
   }, server = TRUE)
   
   
@@ -246,7 +247,7 @@ shinyServer(function(input, output, session) {
   
   deconv_scores_plot <- reactive({
     
-    user_data$deconv_barplot <- user_data$scores %>%
+    deconv_barplot <- scores() %>%
       
       tidyr::pivot_longer(cols = -Mixture,
                           names_to = "population", 
@@ -276,76 +277,54 @@ shinyServer(function(input, output, session) {
             legend.title = element_blank()
       )
     
-    return(user_data$deconv_barplot)
-    
+    return(deconv_barplot)
     
   })
   
   
-  output$scores_plot <- renderPlot(
+  output$scores_plot <- renderPlot({
     
-    expr = {
-    
-      req(!is.null(input$upload_file),
-          input$deconvolute_button >=1)
+    validate(
       
-      # validate(
-      #   
-      #   need(!is.null(input$upload_file),"Please upload a dataset to view"),
-      #   
-      #   need(input$deconvolute_button >=1,'Please press "Deconvolute" to view'),
-      #   
-      #   errorClass = "download_tab" 
-      #   
-      # )
+      need(!is.null(input$upload_file),"Please upload a dataset to view"),
+      
+    )
     
-     
     deconv_scores_plot()
-    
-    }, 
-    width = 900, 
-    height = function(){
+      
+      }, width = 900, height = function(){
       
       
-      req(!is.null(input$upload_file),
-          input$deconvolute_button >=1)
-
-      
-      if(ncol(user_data$exprs) < 15){
+      if(nrow(scores()) < 15){
         
         return(475)
         
-      }else return(50 * ncol(user_data$exprs))
+      }else return(50 * nrow(scores()))
     
       
-    },
-    
-    ) 
+    }) 
  
   
 # DOWNLOAD PLOT ---------------------------------------------------------------  
   
   output$download_button <- renderUI({
     
-    if(input$deconvolute_button >=1 ) {
-      
-      downloadButton(outputId = "downloadData", 
+    req(deconv_scores_plot())
+    
+    downloadButton(outputId = "downloadData", 
                      label =  'Download Plot')
-      
-    }
+  
   })
   
   
   output$filetype_select <- renderUI({
     
-    if(input$deconvolute_button >=1 ) {
-      
-      selectInput(inputId = "file_format",
+    req(deconv_scores_plot())
+    
+    selectInput(inputId = "file_format",
                   label = NULL, 
                   choices=c("pdf","svg","png","tiff","ps"), 
                   selected = "pdf")
-      
-    }
     
   })
   
@@ -376,11 +355,11 @@ shinyServer(function(input, output, session) {
       # Dynamically change the height of the rendered plot
       height = function(){
 
-        if(ncol(user_data$exprs) <= 4){
+        if(nrow(scores()) <= 4){
 
           return(3.5)
 
-        }else return(0.875 * ncol(user_data$exprs))
+        }else return(0.875 * nrow(scores()))
 
       }
       

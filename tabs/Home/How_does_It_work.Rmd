@@ -11,9 +11,9 @@ output:
 
 <ol>
   <li>Select the <b><i class="fa-solid fa-person-running"></i> Run</b> tab</li>
-  <li>Upload your bulk expression profile data</li>
-  <li>Click <b><i class="fa-solid fa-brain"></i> Deconvolute</b> to obtain your scores</li>
-  <li>View your estimated cell-population abundance scores,            markers and available plots</li>
+  <li>Upload your bulk GBM tumour expression profiles</li>
+  <li>View/Refine the markers generated based on your uploaded expression profile</li>
+  <li>Download your estimated cell-population abundance scores,            markers and plots</li>
 </ol>
 
 <!-- This web-app is very easy to use: -->
