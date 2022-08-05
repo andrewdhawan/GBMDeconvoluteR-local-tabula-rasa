@@ -15,20 +15,57 @@
 # PACKAGES ----
 
 library(shiny)
-library(DT)
 library(shinyBS)
+library(shinycssloaders)
 library(tidyverse)
+library(markdown)
+library(DT)
 library(MCPcounter)
 library(tinyscalop)
 library(openxlsx)
-library(markdown)
-library(shinycssloaders)
 
+# GLOABAL OPTIONS ----
+
+# Disable graphical rendering by the Cairo package, if it is installed
 options(shiny.usecairo = TRUE)
 
-# DATA ----
+# Sets the maximum file upload size to 200Mb
+options(shiny.maxRequestSize= 200*1024^2)
 
-# Reads in multiple datasets at once
+# DT options
+
+options(
+  
+  DT.options = list(lengthMenu = list(c(50, 100, -1), 
+                                      c('50','100','All')
+                                      ), 
+                     
+                     buttons = list('copy', 
+                                    list(extend = 'collection',
+                                         buttons = c('csv', 'excel', 'pdf'),
+                                         text = 'Download')
+                                    ),
+                    
+                     serverSide = FALSE,
+                     pagingType = "full",
+                     dom = 'lfBrtip',
+                     width = "100%",
+                     height = "100%",
+                     scrollX = TRUE,
+                     scrollY = "475px",
+                     scrollCollapse = TRUE, 
+                     orderClasses = TRUE, 
+                     autoWidth = FALSE,
+                     search = list(regex = TRUE)
+                    )
+)
+
+
+
+
+# LOAD DATA ----
+
+# Function which reads in multiple datasets at once
 load_datasets <- function(x){
 
   tryCatch(                       # Applying tryCatch
@@ -83,97 +120,14 @@ gene_markers$tumor_intrinsic <- readRDS("data/GBM_tumor_intrinsic_genes.rds")
 plot_cols <- readRDS("data/plot_colors.rds")
 
 
-# REMOVE NA COLUMNS  ----
-
-.rmNA <- function (df) {
-  df <- df[,colSums(is.na(df)) < nrow(df)]
-}
-
-
-# DATA TABLE ----
-
-options(DT.options  = list(lengthMenu = list(c(50, 100, -1), 
-                                             c('50','100','All')), 
-                           
-                           buttons = list('copy', 
-                                          list(extend = 'collection',
-                                               buttons = c('csv', 'excel', 'pdf'),
-                                               text = 'Download')
-                                          ),
-                           serverSide = FALSE,
-                           pagingType = "full",
-                           dom = 'lfBrtip',
-                           width = "100%",
-                           height = "100%",
-                           scrollX = TRUE,
-                           scrollY = "475px",
-                           scrollCollapse = TRUE, 
-                           orderClasses = TRUE, 
-                           autoWidth = FALSE,
-                           search = list(regex = TRUE)
-                           )
-)
-
-data_table <- function (df,rownames = FALSE, 
-                        selection = 'none', 
-                        filter = "none", 
-                        options = list()) {DT::datatable(df, selection = selection, rownames = rownames, filter = filter, extensions = 'Buttons')
-  
-}
-
 # PANEL DIVS ----
+
+# Generates the panels found on the home and about tabs
 
 panel_div <-function(class_type, panel_title, content) {
   HTML(paste0("<div class='panel panel-", class_type,
               "'> <div class='panel-heading'><h3 class='panel-title'>", panel_title,
               "</h3></div><div class='panel-body'>", content,  "</div></div>", sep=""))
 }
-
-
-# BUSY ANIMATION ----
-
-busy <- function (text = "") {
-  div(class = "busy",
-      img(src="gifs/Busy_running.gif", 
-          width = "400px", height = "200px"),
-      # hr(),
-      # p(text)
-  )
-}
-
-# HELP POPUP ----
-
-#  Help popup (https://gist.github.com/jcheng5/5913297) 
-##https://groups.google.com/forum/#!searchin/shiny-discuss/helpPopup/shiny-discuss/ZAkBsL5QwB4/vnmbT47uY7gJ
-
-helpModal <- function(modal_title, link, help_file) {
-  sprintf("<div class='modal fade' id='%s' tabindex='-1' role='dialog' aria-labelledby='%s_label' aria-hidden='true'>
-          <div class='modal-dialog'>
-          <div class='modal-content'>
-          <div class='modal-header'>
-          <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-          <h4 class='modal-title' id='%s_label'>%s</h4>
-          </div>
-          <div class='modal-body'>%s</div>
-          </div>
-          </div>
-          </div>
-          <i title='Help' class='fa fa-question-circle' data-toggle='modal' data-target='#%s'></i>",
-          link, link, link, modal_title, help_file, link) %>%
-    enc2utf8 %>% HTML
-}
-
-helpPopup <- function(content, title = NULL) {
-  a(href = "#",
-    class = "popover-link",
-    `data-toggle` = "popover",
-    `data-title` = title,
-    `data-content` = content,
-    `data-html` = "true",
-    `data-trigger` = "hover",
-    icon("question-circle")
-  )
-}
-
 
 # END ----

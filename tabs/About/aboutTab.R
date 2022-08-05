@@ -21,9 +21,5 @@ tabPanel(title = "About", icon = icon("info-circle"),
          
          panel_div(class_type = "primary", panel_title = "Session Info",
                    content = htmlOutput("sessionInfo"))
-         
-         # panel_div(class_type = "primary", panel_title = "License",
-         #           content = includeMarkdown("tabs/About/License.Rmd"))
          )
-
 )

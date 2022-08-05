@@ -506,16 +506,22 @@ ol.outer {
     color: #696969;
     background-color: #fff;
     border-color: #b0aece;
-    margin-top: -24px;
     font-weight: 500;
+    margin-top: -25px;
 }
 
 
 .selectize-control.single .selectize-input, .selectize-control.single .selectize-input input{
     cursor: pointer;
     border-color: #b0aece;
+    width: 140px;
+    display: inline-block;
+    margin-top: 10px;
+    -webkit-box-shadow: none !important;
+}
 
 }
+
 
 
 .selectize-input.focus {
@@ -536,6 +542,7 @@ ol.outer {
     border-color: #b0aece;
     margin-top: 10px;
     font-weight: 500;
+    display: inline-block;
 }
 
 

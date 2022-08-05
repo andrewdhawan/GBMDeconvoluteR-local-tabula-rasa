@@ -19,8 +19,6 @@ tabPanel(
         
         sidebarPanel = sidebarPanel(
           
-          # br(), 
-          
           # UPLOAD DATA WELL PANEL 
           
           tags$h4("Upload Data"),
@@ -68,64 +66,60 @@ tabPanel(
         
         mainPanel(
           
-          tabsetPanel(
-            id = "main_runpage_panel",
+          tabsetPanel(id = "main_runpage_panel",
+                      
             # File upload
-            tabPanel(title = "1. Uploaded Data",
-                     id = "uploaded_tab",
-                     DT::dataTableOutput(outputId = "uploaded_data") %>% 
-                       
-                     shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
-                                   image.width = "50%")
-            ),
+            tabPanel(
+              title = "Data",
+              id = "uploaded_tab",
+              
+              DT::dataTableOutput(outputId = "uploaded_data") %>% 
+                shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
+                                             image.width = "50%")
+              ),
             
             # Markers
-            tabPanel(title = "2. Markers", 
-                     id = "marker_tab",
-                     DT::dataTableOutput(outputId = "deconv_markers") %>% 
-                       
-                     shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
-                                   image.width = "50%")
-            ),
+            tabPanel(
+              title = "Markers", 
+              id = "marker_tab",
+              
+              DT::dataTableOutput(outputId = "deconv_markers") %>% 
+                shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
+                                             image.width = "50%")
+                     ),
             
             # Scores 
-            tabPanel(title = "3. Scores", 
-                     id = "scores_tab",
-                     DT::dataTableOutput(outputId = "deconv_scores") %>% 
-                       
-                     shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
-                                   image.width = "50%")
-            ),
+            tabPanel(
+              title = "Scores",
+              id = "scores_tab",
+              
+              DT::dataTableOutput(outputId = "deconv_scores") %>% 
+                shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
+                                             image.width = "50%")
+              ),
             
             # Bar plot
-            tabPanel(title = "4. Bar Plot", 
-                     id = "barplot_tab",
-                     
-                     style = c("height:575px;overflow-y: scroll;"),
-                     
-                     uiOutput("filetype_select", 
-                              style = "display: inline-block; 
-                                   border-color: #b0aece;
-                                   width: 100px; 
-                                   margin-top: 15px;" ),
-                     
-                     uiOutput("download_button",
-                              class = "btn-download",
-                              style = "display: inline-block;"),
-                     
-                     plotOutput(outputId = "scores_plot") %>% 
-                       
-                    shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
-                                   image.width = "50%")
-                     
-            )
-          )
-        )
-        
+            tabPanel(
+              title = "Bar Plot",
+              id = "barplot_tab",
+              style = c("height:575px;overflow-y: scroll;"),
+              
+              uiOutput("download_button"),
+              
+              uiOutput("filetype_select"),
+
+              plotOutput(outputId = "scores_plot") %>% 
+                shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
+                                             image.width = "50%")
+                     )
+            ),
+          
         # MAIN PANEL UI END ----
         
       )
       
   )
+)
+
 )
 

@@ -1,18 +1,8 @@
 # This script contains the server logic for the GBMDeconvoluteR Shiny web application. 
 # You can run the application by clicking 'Run App' above.
 
-options(shiny.maxRequestSize=200*1024^2)
 
-library(shiny)
-library(tidyverse)
-library(MCPcounter)
-library(tinyscalop)
-library(openxlsx)
-library(shinycssloaders)
-
-# Define server logic
 shinyServer(function(input, output, session) {
-
 # SESSION INFO -----------------------------------------------------------------  
   
   output$sessionInfo <- renderPrint({
@@ -50,24 +40,24 @@ shinyServer(function(input, output, session) {
   
 # DYNAMIC RUN BUTTON -----------------------------------------------------------
   
+  # This feature is no longer used in the shiny app
+  
   # Reactivity required to display the Run button after upload
   output$finishedUploading <- reactive({
-    
+
     if (is.null(input$upload_file)) 0 else 1
-    
+
   })
-  
+
   outputOptions(output, 'finishedUploading', suspendWhenHidden=FALSE)
-  
-  
-  
+
+
 # USER UPLOADED DATA -----------------------------------------------------------
   
   user_data <- reactiveValues()
   
   uploaded_data <- eventReactive(input$upload_file, {
 
-    
     # Load in the user data ----
     
     if(tools::file_ext(input$upload_file$name) %in% "xlsx"){
@@ -125,16 +115,11 @@ shinyServer(function(input, output, session) {
       refined_neoplastic[refined_neoplastic$marker %in% gene_markers$tumor_intrinsic,]
     
     
-    # Outputs ----
-    
-    user_data$exprs <- df
-    
-    user_data$ncols <- ncol(df)
-    
+    # Store users neoplastic markers ----
+
     user_data$refined_neoplastic <- refined_neoplastic
     
     user_data$TI_refined_neoplastic <- TI_refined_neoplastic
-    
     
     return(df)
     
@@ -186,8 +171,6 @@ shinyServer(function(input, output, session) {
         rbind(gene_markers$immune)
       
     }
-    
-     user_data$deconv_markers <- deconv_markers
      
      return(deconv_markers)
     
@@ -218,9 +201,9 @@ shinyServer(function(input, output, session) {
  
     req(get_markers())
     
-    scores <- tinyscalop::MCPCounter_score(x = user_data$exprs, 
-                                                     gene_pops = user_data$deconv_markers, 
-                                                     out_digits = 2)
+    scores <- tinyscalop::MCPCounter_score(x = uploaded_data(), 
+                                           gene_pops = get_markers(),
+                                           out_digits = 2)
     return(scores)
     
     }) 
@@ -245,17 +228,19 @@ shinyServer(function(input, output, session) {
   
 # PLOT SCORES ------------------------------------------------------------------
   
-  deconv_scores_plot <- reactive({
+  plot_output <- reactive({
     
-    deconv_barplot <- scores() %>%
+    req(scores())
+    
+    scores() %>%
       
       tidyr::pivot_longer(cols = -Mixture,
-                          names_to = "population", 
+                          names_to = "population",
                           values_to = "score") %>%
       
       dplyr::mutate(across(population, as.factor)) %>%
       
-      ggplot(aes(fill=population, y=score, x=Mixture)) + 
+      ggplot(aes(fill=population, y=score, x=Mixture)) +
       
       geom_bar(position="fill", stat="identity") +
       
@@ -277,49 +262,43 @@ shinyServer(function(input, output, session) {
             legend.title = element_blank()
       )
     
-    return(deconv_barplot)
+  })
+  
+
+  # Returns the height of the bar plot
+  scale_plot_height <- reactive({
     
+    if(nrow(scores()) < 15){
+      
+      return(475)
+      
+    }else return(50 * nrow(scores()))
+  
   })
   
   
-  output$scores_plot <- renderPlot({
-    
-    validate(
-      
-      need(!is.null(input$upload_file),"Please upload a dataset to view"),
-      
-    )
-    
-    deconv_scores_plot()
-      
-      }, width = 900, height = function(){
-      
-      
-      if(nrow(scores()) < 15){
-        
-        return(475)
-        
-      }else return(50 * nrow(scores()))
-    
-      
-    }) 
- 
+  output$scores_plot <- renderPlot(plot_output(), 
+                                   width = 900, 
+                                   height = scale_plot_height
+                                   ) 
   
 # DOWNLOAD PLOT ---------------------------------------------------------------  
   
   output$download_button <- renderUI({
     
-    req(deconv_scores_plot())
-    
+    req(!is.null(input$upload_file),"Please upload a dataset to view")
+  
     downloadButton(outputId = "downloadData", 
                      label =  'Download Plot')
-  
+    
   })
   
   
   output$filetype_select <- renderUI({
     
-    req(deconv_scores_plot())
+    validate(
+      need(!is.null(input$upload_file),"Please upload a dataset to view")
+    )
     
     selectInput(inputId = "file_format",
                   label = NULL, 
@@ -363,12 +342,12 @@ shinyServer(function(input, output, session) {
 
       }
       
-      ggsave(file, plot = deconv_scores_plot(),
+      ggsave(file, 
+             plot = plot_output(), 
              width = 10, 
              height = height(),
-             units = "in",
-             limitsize = FALSE
-             )
+             units = "in", 
+             limitsize = FALSE)
       
     }
   

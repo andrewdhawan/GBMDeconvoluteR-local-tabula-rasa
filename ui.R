@@ -1,9 +1,5 @@
-# This is the user-interface definition for the GBMDeconvoluteR Shiny web application. 
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+# This is the main user-interface definition for the 
+# GBMDeconvoluteR Shiny web application. 
 
 shinyUI( 
   
