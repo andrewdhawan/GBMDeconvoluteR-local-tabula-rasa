@@ -30,7 +30,7 @@ library(openxlsx)
 options(shiny.usecairo = TRUE)
 
 # Sets the maximum file upload size to 200Mb
-options(shiny.maxRequestSize= 200*1024^2)
+options(shiny.maxRequestSize= 50*1024^2)
 
 # DT options
 

@@ -24,7 +24,6 @@ shinyServer(function(input, output, session) {
     )
   })  
   
-  
   # Tumour Intrinsic Genes
   observeEvent(input$TI_genes_help, {
   
@@ -53,138 +52,93 @@ shinyServer(function(input, output, session) {
 
 
 # USER UPLOADED DATA -----------------------------------------------------------
-  
-  user_data <- reactiveValues()
-  
-  uploaded_data <- eventReactive(input$upload_file, {
-
-    # Load in the user data ----
-    
-    if(tools::file_ext(input$upload_file$name) %in% "xlsx"){
-      
-      df <- openxlsx::read.xlsx(input$upload_file$datapath,
-                                colNames = TRUE)
-      
-    }else if(tools::file_ext(input$upload_file$name) %in% "csv"){
-      
-      df <- readr::read_csv(input$upload_file$datapath,
-                            col_types = cols())
-      
-    }else if(tools::file_ext(input$upload_file$name) %in% "tsv"){
-      
-      df <- readr::read_tsv(input$upload_file$datapath,
-                            col_types = cols())
-      
-    }
-    
-    # Refine neoplastic signatures ----
-    
-    # Put the uploaded data into Log2 space
-    exprs_matrix <- df %>%
-      
-      tibble::column_to_rownames(colnames(df)[[1]]) %>%
-      
-      as.matrix() %>%
-      
-      tinyscalop::exprs_levels(m = ., bulk = TRUE, log_scale = TRUE)
-    
-    
-    # Filter out any genes which are zero across all samples
-    exprs_matrix <- exprs_matrix[Matrix::rowSums(exprs_matrix) != 0,]                            
-    
-    
-    # Refine Neftel markers
-    set.seed(1234)
-    
-    refined_neoplastic <- 
-      tinyscalop::filter_signatures(m = exprs_matrix,
-                                    sigs = gene_markers$neftel_sigs$four_sigs,
-                                    filter.threshold = 0.4)
-    
-    
-    refined_neoplastic <- data.frame(
-      
-      "marker" = unlist(refined_neoplastic, use.names = FALSE),
-      
-      "population" = rep(names(refined_neoplastic), 
-                         lengths(refined_neoplastic))
-    )
-    
-    
-    TI_refined_neoplastic <- 
-      refined_neoplastic[refined_neoplastic$marker %in% gene_markers$tumor_intrinsic,]
-    
-    
-    # Store users neoplastic markers ----
-
-    user_data$refined_neoplastic <- refined_neoplastic
-    
-    user_data$TI_refined_neoplastic <- TI_refined_neoplastic
-    
-    return(df)
-    
-  }) 
-  
-  # Render the uploaded table
-  output$uploaded_data <- DT::renderDataTable({
-    
-    # input$upload_file will be NULL initially. After the user selects
-    # and uploads a file, this data will be displayed in the uploaded data tab 
+ 
+  data <- reactive({
     
     validate(
       need(!is.null(input$upload_file),"Please upload a dataset to view")
-    )
+      )
+    
+    load_user_data(name = input$upload_file$name,
+                   path = input$upload_file$datapath)
+
+  })
+
+  input_check <- reactive({
+
+    check_user_data(data())
+
+  })
+
+  observeEvent(!is.null(data()),{
+    
+    input_check <- check_user_data(data())
+    
+    if(!is.null(input_check)){
+      
+      showModal(modalDialog(
+        # title = "FILE UPLOAD ERROR!",
+        tags$br(),
+        tags$image(src = "error.svg", 
+                   style = "width: 30%; display: block; margin-left: auto; margin-right: auto;"),
+        tags$br(),
+        tags$text(input_check, 
+        style = "color: gray; font-size: 30px;font-variant-caps: all-small-caps;
+                 font-weight: 900;display: flex; width: 100%; justify-content: center;
+                 align-content: center;"),
+        footer = NULL,
+        easyClose = TRUE,
+        fade = TRUE
+        ))
+    }
     
     
-    datatable(uploaded_data(), 
+  }, priority = 1, ignoreNULL = FALSE, once = FALSE)
+    
+  
+  output$uploaded_data <- DT::renderDataTable({
+  
+    req(is.null(input_check()))
+    
+    datatable(data(), 
               rownames = FALSE )
     
   }, server = TRUE)
   
-  
+ 
 # DECONVOLUTION MARKERS -------------------------------------------------------
-  
-  get_markers <- reactive({ 
+
+  cleaned_data <- reactive({ 
     
-    req(uploaded_data())
+    req(is.null(input_check()))
+    
+    preprocess_data(data())
+  
+    })
+    
+  get_markers <- reactive({
+    
+    req(cleaned_data(), cancelOutput = TRUE)
 
     if(input$tumour_intrinsic){
       
-      deconv_markers <-  user_data$TI_refined_neoplastic %>% 
-        
-        tidyr::drop_na() %>%
-        
-        rename("HUGO symbols" = marker,
-               "Cell population" = population) %>%
-        
-        rbind(gene_markers$immune)
+      deconv_markers(exprs_matrix = cleaned_data(),
+                     neftel_sigs = gene_markers$neftel_sigs$four_sigs,
+                     TI_genes_only = TRUE,
+                     TI_markers = gene_markers$tumor_intrinsic,
+                     immune_markers =  gene_markers$immune
+                     )
       
     }else{
       
-      deconv_markers <- user_data$refined_neoplastic %>% 
-        
-        tidyr::drop_na() %>%
-        
-        rename("HUGO symbols" = marker,
-               "Cell population" = population) %>%
-        
-        rbind(gene_markers$immune)
-      
-    }
-     
-     return(deconv_markers)
+      deconv_markers(exprs_matrix = cleaned_data(),
+                     neftel_sigs = gene_markers$neftel_sigs$four_sigs,
+                     immune_markers =  gene_markers$immune)
+      }
     
-    })
+  })
   
-  
-  # Render the Deconvolution markers
   output$deconv_markers <- DT::renderDataTable({
-    
-    validate(
-      
-      need(!is.null(input$upload_file),"Please upload a dataset to view"),
-      
-    )
     
     datatable(get_markers(),
               rownames = FALSE, 
@@ -193,30 +147,18 @@ shinyServer(function(input, output, session) {
     
   }, server = TRUE)
   
-  
 # DECONVOLUTION SCORES ---------------------------------------------------------
   
   scores  <-  reactive({
     
- 
-    req(get_markers())
+    req(get_markers(), cancelOutput = TRUE)
     
-    scores <- tinyscalop::MCPCounter_score(x = uploaded_data(), 
-                                           gene_pops = get_markers(),
-                                           out_digits = 2)
-    return(scores)
-    
+    score_data(exprs_data = cleaned_data(),
+               markers = get_markers(),
+               out_digits = 2)
     }) 
     
-  
-  # Render the Deconvolution scores
   output$deconv_scores <- DT::renderDataTable({
-    
-    validate(
-      
-      need(!is.null(input$upload_file),"Please upload a dataset to view"),
-      
-    )
     
     datatable(scores(),
               rownames = FALSE, 
@@ -225,52 +167,22 @@ shinyServer(function(input, output, session) {
     
   }, server = TRUE)
   
-  
 # PLOT SCORES ------------------------------------------------------------------
   
   plot_output <- reactive({
     
     req(scores())
     
-    scores() %>%
-      
-      tidyr::pivot_longer(cols = -Mixture,
-                          names_to = "population",
-                          values_to = "score") %>%
-      
-      dplyr::mutate(across(population, as.factor)) %>%
-      
-      ggplot(aes(fill=population, y=score, x=Mixture)) +
-      
-      geom_bar(position="fill", stat="identity") +
-      
-      ggtitle("") +
-      
-      xlab("") +
-      
-      ylab("Abundance Estimates (Arbitary units)")  +
-      
-      scale_fill_manual(values = plot_cols) +
-      
-      coord_flip() +
-      
-      theme_classic(base_size = 24) +
-      
-      
-      theme(axis.text.x = element_text(face = "bold", hjust = 0.5, vjust = 0.5),
-            axis.title.x = element_text(vjust = 0.5),
-            legend.title = element_blank()
-      )
+    plot_scores(scores = scores())
     
   })
   
-
-  # Returns the height of the bar plot
-  scale_plot_height <- reactive({
+  # Dynamically scale the width of the bar plot
+  scale_plot_width <- reactive({
     
-    if(nrow(scores()) < 15){
+    if(nrow(scores()) < 20){
       
-      return(475)
+      return(1000)
       
     }else return(50 * nrow(scores()))
   
@@ -278,76 +190,88 @@ shinyServer(function(input, output, session) {
   
   
   output$scores_plot <- renderPlot(plot_output(), 
-                                   width = 900, 
-                                   height = scale_plot_height
+                                   width = scale_plot_width, 
+                                   height = 2000
                                    ) 
-  
 # DOWNLOAD PLOT ---------------------------------------------------------------  
   
-  output$download_button <- renderUI({
-    
-    req(!is.null(input$upload_file),"Please upload a dataset to view")
-  
-    downloadButton(outputId = "downloadData", 
-                     label =  'Download Plot')
-    
-  })
-  
-  
   output$filetype_select <- renderUI({
-    
-    validate(
-      need(!is.null(input$upload_file),"Please upload a dataset to view")
-    )
-    
-    selectInput(inputId = "file_format",
-                  label = NULL, 
-                  choices=c("pdf","svg","png","tiff","ps"), 
-                  selected = "pdf")
-    
+
+    req(!is.null(input$upload_file))
+
+    selectInput(inputId = "file_format", 
+                label = NULL,
+                choices=c("pdf","svg","png","tiff","ps"),
+                selected = "pdf")
+
   })
   
-  
+  output$download_button <- renderUI({
+
+    req(!is.null(input$upload_file))
+
+    downloadButton(outputId = "downloadData", label =  'Download Plot')
+
+  })
+
+
+  # Generate the file name dynamically with appropriate extension
   fn_downloadname <- reactive({
     
-    outfile_name <- paste(format(Sys.time(), "%d-%m-%Y %H-%M-%S"),
-                         "_GBMDeconvoluteR_scores", sep = "")
-    
-    filename <- switch(input$file_format,
-                       pdf = paste0(outfile_name, ".pdf", sep=""),
-                       svg = paste0(outfile_name, ".svg", sep=""),
-                       png =  paste0(outfile_name, ".png", sep=""),
-                       tiff = paste0(outfile_name, ".tiff", sep=""),
-                       ps = paste0(outfile_name, ".ps", sep="")
-                       )
-    return(filename)
+    paste0(format(Sys.time(), "%d-%m-%Y %H-%M-%S"),
+           "_GBMDeconvoluteR_plot.", input$file_format) 
     
   })
   
   
   output$downloadData <- downloadHandler(
     
-    filename = fn_downloadname,
+    filename = function(){
+      
+      fn_downloadname()
+    
+    },
       
     content = function(file) {
-      
-      # Dynamically change the height of the rendered plot
-      height = function(){
-
-        if(nrow(scores()) <= 4){
-
-          return(3.5)
-
-        }else return(0.875 * nrow(scores()))
-
+    
+      # Dynamically set plot width 
+      plot_width <- function(min_width = 6, sample_scaling= 0.5){
+        
+        if(nrow(scores()) > 3){
+          
+          scaling_factor <- nrow(scores()) * sample_scaling
+          
+          return( min_width * 1 + scaling_factor)
+          
+        } else return(min_width)
+        
       }
       
-      ggsave(file, 
-             plot = plot_output(), 
-             width = 10, 
-             height = height(),
-             units = "in", 
-             limitsize = FALSE)
+      if(tools::file_ext(fn_downloadname()) == "ps"){
+        
+        ggsave(file, 
+               plot = plot_output(), 
+               width = plot_width(),
+               device =  grDevices::cairo_ps,
+               height = 25,
+               units = "in", 
+               limitsize = FALSE)
+        
+        
+      }else{
+        
+        ggsave(file, 
+               plot = plot_output(), 
+               width = plot_width(), 
+               height = 25,
+               units = "in", 
+               limitsize = FALSE)
+        
+        
+      }
+      
+      
+    
       
     }
   

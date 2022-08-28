@@ -57,7 +57,7 @@ tabPanel(
                                    "No" = FALSE),
                        
                        inline = TRUE)
-          
+
         ),
         
         # SIDEBAR PANEL END ----
@@ -67,12 +67,13 @@ tabPanel(
         mainPanel(
           
           tabsetPanel(id = "main_runpage_panel",
+                      type = "tabs",
                       
             # File upload
             tabPanel(
               title = "Data",
               id = "uploaded_tab",
-              
+              value = "data_selected",
               DT::dataTableOutput(outputId = "uploaded_data") %>% 
                 shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
                                              image.width = "50%")
@@ -82,6 +83,7 @@ tabPanel(
             tabPanel(
               title = "Markers", 
               id = "marker_tab",
+              value = "markers_selected",
               
               DT::dataTableOutput(outputId = "deconv_markers") %>% 
                 shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
@@ -92,6 +94,7 @@ tabPanel(
             tabPanel(
               title = "Scores",
               id = "scores_tab",
+              value = "scores_selected",
               
               DT::dataTableOutput(outputId = "deconv_scores") %>% 
                 shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
@@ -102,24 +105,36 @@ tabPanel(
             tabPanel(
               title = "Bar Plot",
               id = "barplot_tab",
+              value = "barplot_selected", 
+              
               style = c("height:575px;overflow-y: scroll;"),
               
-              uiOutput("download_button"),
-              
-              uiOutput("filetype_select"),
+              div(id="plot_download_options",
+              style ="display: flex;justify-content: center; align-items: flex-start;",
+                  
+                  uiOutput("filetype_select",
+                           style="display: inline-block;vertical-align:top;width:50px;"),
 
-              plotOutput(outputId = "scores_plot") %>% 
+                  uiOutput("download_button", class = "btn-download",
+                           style="display: inline-block;vertical-align:top;width:100px;")
+                  ),
+              
+        
+              plotOutput(outputId = "scores_plot") %>%
                 shinycssloaders::withSpinner(image = "gifs/Busy_running.gif",
                                              image.width = "50%")
-                     )
-            ),
+              
+                     ),
+            
+            ), # END TABSETPANEL
           
         # MAIN PANEL UI END ----
         
-      )
-      
-  )
-)
+        ) # END MAINPANEL
+    
+      ) # END SIDEBARLAYOUT
+  
+  ) # END RUN DIV
 
-)
+) # END TABPANEL
 

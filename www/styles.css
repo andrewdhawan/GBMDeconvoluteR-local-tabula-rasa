@@ -280,16 +280,17 @@ checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio inp
   font-size: 18px;
 }
 
-.shiny-output-error-download_tab {
+/*.shiny-output-error-download_tab {
   color: pink;
   font-size: 20px;
-}
+}*/
 
 
 .shiny-output-error-validation {
   color: #b0aece;
   font-size: 20px;
   margin-top: 10px;
+  text-align: left;
 }
 
 .shiny-progress {
@@ -506,16 +507,22 @@ ol.outer {
     color: #696969;
     background-color: #fff;
     border-color: #b0aece;
+    display: inline-block;
+    vertical-align:top;
+    width:150px;
     font-weight: 500;
-    margin-top: -25px;
+    margin-top: 10px;
+    margin-left: 50px;
 }
 
 
 .selectize-control.single .selectize-input, .selectize-control.single .selectize-input input{
     cursor: pointer;
     border-color: #b0aece;
-    width: 140px;
+    color: #696969;
+    width: 80px;
     display: inline-block;
+    vertical-align:top;
     margin-top: 10px;
     -webkit-box-shadow: none !important;
 }
@@ -523,9 +530,27 @@ ol.outer {
 }
 
 
+/*.error_modal_text{
+  color: dimgray;
+  font-size: 30px;
+  font-variant-caps: all-small-caps;
+  font-weight: 900;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-content: center;
+}*/
+
+
+.selectize-dropdown-content {
+    padding: 5px 0;
+    color: #b0aece;
+}
+
+
+
 
 .selectize-input.focus {
-  
   border-color: #b0aece;
   outline: 0;
   -webkit-box-shadow: none !important;
