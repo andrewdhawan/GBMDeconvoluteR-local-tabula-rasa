@@ -18,6 +18,7 @@ library(shiny)
 library(shinyBS)
 library(shinycssloaders)
 library(tidyverse)
+library(ggpattern)
 library(markdown)
 library(DT)
 library(MCPcounter)
@@ -63,62 +64,75 @@ options(
 
 
 
-# LOAD DATA ----
+# LOAD MULTIPLE DATASETS FUNCTION ----
 
 # Function which reads in multiple datasets at once
-load_datasets <- function(x){
-
-  tryCatch(                       # Applying tryCatch
-    
-    expr = {                      # Specifying expression
-      
-      assign(x = tools::file_path_sans_ext(basename(x)),
-             value = readRDS(x),
-             envir = .GlobalEnv) 
-      
-      
-      message(
-        
-        crayon::green("Loaded", tools::file_path_sans_ext(basename(x))),
-        
-        appendLF = TRUE
-        
-        )
-      
-    },
-    
-    error = function(e){          # Specifying error message
-      
-      message(
-        
-        crayon::red(tools::file_path_sans_ext(basename(x)), 
-                    "Could Not Be Loaded!"),
-        
-        appendLF = TRUE
-        
-        )
-    },
-    
-    warning = function(w){        # Specifying warning message
-      message("There was a warning message.")
-    }
-  )
-  
-}
+# load_datasets <- function(x){
+# 
+#   tryCatch(                       # Applying tryCatch
+#     
+#     expr = {                      # Specifying expression
+#       
+#       assign(x = tools::file_path_sans_ext(basename(x)),
+#              value = readRDS(x),
+#              envir = .GlobalEnv) 
+#       
+#       
+#       message(
+#         
+#         crayon::green("Loaded", tools::file_path_sans_ext(basename(x))),
+#         
+#         appendLF = TRUE
+#         
+#         )
+#       
+#     },
+#     
+#     error = function(e){          # Specifying error message
+#       
+#       message(
+#         
+#         crayon::red(tools::file_path_sans_ext(basename(x)), 
+#                     "Could Not Be Loaded!"),
+#         
+#         appendLF = TRUE
+#         
+#         )
+#     },
+#     
+#     warning = function(w){        # Specifying warning message
+#       message("There was a warning message.")
+#     }
+#   )
+#   
+# }
 
 # load_datasets usage
 # plyr::l_ply(indata, load_datasets)
 
+# LOAD DATASETS ----
+
 gene_markers <- list()
 
-gene_markers$neftel_sigs <- readRDS("data/neftel_sigs.rds")
+# Neoplastic cell-state markers
+gene_markers$neftel2019_neoplastic <- readRDS("data/Neftel_et_al_2019_four_state_neoplastic_markers.rds")
 
-gene_markers$immune <- readRDS("data/GBM_Immune_markers.rds")
+gene_markers$moreno2022_neoplastic <- readRDS("data/Moreno_et_al_2022_lvl3_neoplastic_markers.rds")
 
-gene_markers$tumor_intrinsic <- readRDS("data/GBM_tumor_intrinsic_genes.rds")
+# Immune cell markers
+gene_markers$ajaib2022_immune <- readRDS("data/Ajaib_et_al_2022_GBM_Immune_markers.rds")
 
+gene_markers$moreno2022_immune <- readRDS("data/Moreno_et_al_2022_lvl3_immune_markers.rds")
+
+# Tumour intrinsic markers
+gene_markers$wang2017_tumor_intrinsic <- readRDS("data/Wang_et_al_2017_GBM_TI_markers.rds")
+
+
+# Plot colors
 plot_cols <- readRDS("data/plot_colors.rds")
 
+# Plot order
+plot_order <- readRDS("data/plot_order.rds")
 
 # PANEL DIVS ----
 

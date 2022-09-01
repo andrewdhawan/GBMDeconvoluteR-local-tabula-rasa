@@ -1,0 +1,13 @@
+---
+title: "Marker Gene List Selection"
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+To deconvolute your gene expression profiles this tool uses a reference-based deconvolution method called [MCPCounter](https://doi.org/10.1186/s13059-016-1070-5), which requires a list of marker genes that delineate specific cell types.
+
+The default method (**Ajaib et.al (2022)**) uses a combined list comprised of four neoplastic cell state markers described by [Neftel et.al (2019)](https://doi.org/10.1016/j.cell.2019.06.024) and a list of 8 immune cell type markers, which have been derived from 5 single cell RNA-seq datasets, using only grade IV, IDH-wt GBM patient samples. Please see [Ajaib et.al (2022)]() for more information.     
+
+A second marker gene list (**Ruiz-Moreno et.al (2022)**) can also be selected. This list is also comprised of the four neoplastic cell state markers described by Neftel et.al (2019), though the specific markers used differ from those reported in the original paper. Moreover, this list contains 16 markers representing immune cells and brain-resident cells such as astrocytes and oligodendrocytes. Please see [Ruiz-Moreno et.al (2022)](https://doi.org/10.1101/2022.08.27.505439) for more information.

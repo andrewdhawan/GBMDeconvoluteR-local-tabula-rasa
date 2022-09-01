@@ -45,13 +45,28 @@ tabPanel(
           
           br(), br(),
           
+          selectInput(inputId = "markergenelist",
+                      label = tags$div(class = "deconv_option_header",
+                                       "Marker Gene List",
+                                       shiny::actionLink("marker_genelist_help", 
+                                                         label = img(src="Icons/help.svg", 
+                                                                     class = "help_icon"))
+                      ),
+                      
+                      choices = c("Ajaib et.al (2022)","Ruiz-Moreno et.al (2022)"),
+                      selected = c("Ajaib et.al (2022)"),
+                      multiple = FALSE,
+                      width = '200px',
+                      ),
+          br(),
+          
           radioButtons(inputId = "tumour_intrinsic",
                        label = tags$div(class = "deconv_option_header",
                                         "Tumour Intrinsic Genes",
                                         shiny::actionLink("TI_genes_help", 
                                                           label = img(src="Icons/help.svg", 
                                                                       class = "help_icon"))
-                       ),
+                                        ),
                        
                        choices = c("Yes" = TRUE,
                                    "No" = FALSE),

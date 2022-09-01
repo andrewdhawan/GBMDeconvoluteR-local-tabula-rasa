@@ -24,6 +24,19 @@ shinyServer(function(input, output, session) {
     )
   })  
   
+  # Marker Gene List
+  observeEvent(input$marker_genelist_help, {
+    
+    showModal(
+      
+      modalDialog( title = "Marker Gene List Selection",
+                   includeMarkdown("tabs/Run/help/help_marker_genelist.Rmd"),
+                   footer = NULL,
+                   easyClose = TRUE, 
+                   fade = TRUE)
+    )
+  })  
+  
   # Tumour Intrinsic Genes
   observeEvent(input$TI_genes_help, {
   
@@ -120,21 +133,55 @@ shinyServer(function(input, output, session) {
     
     req(cleaned_data(), cancelOutput = TRUE)
 
-    if(input$tumour_intrinsic){
-      
-      deconv_markers(exprs_matrix = cleaned_data(),
-                     neftel_sigs = gene_markers$neftel_sigs$four_sigs,
-                     TI_genes_only = TRUE,
-                     TI_markers = gene_markers$tumor_intrinsic,
-                     immune_markers =  gene_markers$immune
-                     )
-      
-    }else{
-      
-      deconv_markers(exprs_matrix = cleaned_data(),
-                     neftel_sigs = gene_markers$neftel_sigs$four_sigs,
-                     immune_markers =  gene_markers$immune)
-      }
+    
+   selected_markers <- switch(input$markergenelist,
+           
+           `Ajaib et.al (2022)` = {
+             
+             list(neoplastic_markers = gene_markers$neftel2019_neoplastic,
+                  immune_markers = gene_markers$ajaib2022_immune)
+             
+             },
+           
+           `Ruiz-Moreno et.al (2022)` ={
+             
+             list(neoplastic_markers = gene_markers$moreno2022_neoplastic,
+                  immune_markers = gene_markers$moreno2022_immune)
+           })
+    
+   
+   if(input$tumour_intrinsic){
+     
+     deconv_markers(exprs_matrix = cleaned_data(),
+                    neftel_sigs = selected_markers$neoplastic_markers,
+                    TI_genes_only = TRUE,
+                    TI_markers = gene_markers$wang2017_tumor_intrinsic,
+                    immune_markers =  selected_markers$immune_markers
+     )
+     
+   }else{
+     
+     deconv_markers(exprs_matrix = cleaned_data(),
+                    neftel_sigs = selected_markers$neoplastic_markers,
+                    immune_markers =  selected_markers$immune_markers)
+   }
+   
+   
+    # if(input$tumour_intrinsic){
+    #   
+    #   deconv_markers(exprs_matrix = cleaned_data(),
+    #                  neftel_sigs = gene_markers$neftel2019_neoplastic,
+    #                  TI_genes_only = TRUE,
+    #                  TI_markers = gene_markers$wang2017_tumor_intrinsic,
+    #                  immune_markers =  gene_markers$ajaib2022_immune
+    #                  )
+    #   
+    #   }else{
+    #   
+    #   deconv_markers(exprs_matrix = cleaned_data(),
+    #                  neftel_sigs = gene_markers$neftel2019_neoplastic,
+    #                  immune_markers =  gene_markers$ajaib2022_immune)
+    #   }
     
   })
   
@@ -173,25 +220,47 @@ shinyServer(function(input, output, session) {
     
     req(scores())
     
-    plot_scores(scores = scores())
-    
+    switch(input$markergenelist,
+           
+           `Ajaib et.al (2022)` = plot_scores(scores = scores(),
+                                              plot_order = plot_order$ajaib_et_al_2022),
+           
+           `Ruiz-Moreno et.al (2022)` = plot_scores(scores = scores(),
+                                                   plot_order = plot_order$moreno_et_al_2022)
+             )
+
   })
   
   # Dynamically scale the width of the bar plot
   scale_plot_width <- reactive({
-    
-    if(nrow(scores()) < 20){
+
+    if(nrow(scores()) > 2){
       
-      return(1000)
+      scaling_factor <- nrow(scores()) * 50
       
-    }else return(50 * nrow(scores()))
+      return( 400 + scaling_factor)
+      
+    } else return(400)
   
   })
   
   
+  scale_plot_height <- reactive({
+    
+    switch(input$markergenelist,
+           
+           `Ajaib et.al (2022)` = 2500,
+           
+           `Ruiz-Moreno et.al (2022)` = 4000
+    )
+    
+    
+  })
+  
+
   output$scores_plot <- renderPlot(plot_output(), 
                                    width = scale_plot_width, 
-                                   height = 2000
+                                   height = scale_plot_height
                                    ) 
 # DOWNLOAD PLOT ---------------------------------------------------------------  
   
@@ -247,13 +316,26 @@ shinyServer(function(input, output, session) {
         
       }
       
+      # Dynamically set plot width 
+      plot_height <- function(){
+        
+        switch(input$markergenelist,
+               
+               `Ajaib et.al (2022)` = 30,
+               
+               `Ruiz-Moreno et.al (2022)` = 45
+        )
+        
+      }
+      
+      
       if(tools::file_ext(fn_downloadname()) == "ps"){
         
         ggsave(file, 
                plot = plot_output(), 
                width = plot_width(),
                device =  grDevices::cairo_ps,
-               height = 25,
+               height = plot_height(),
                units = "in", 
                limitsize = FALSE)
         
@@ -263,7 +345,7 @@ shinyServer(function(input, output, session) {
         ggsave(file, 
                plot = plot_output(), 
                width = plot_width(), 
-               height = 25,
+               height = plot_height(),
                units = "in", 
                limitsize = FALSE)
         
