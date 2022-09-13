@@ -5,6 +5,8 @@
 shinyServer(function(input, output, session) {
 # SESSION INFO -----------------------------------------------------------------  
   
+  session$onSessionEnded(stopApp)
+  
   output$sessionInfo <- renderPrint({
     capture.output(sessionInfo())
   })  
@@ -18,6 +20,19 @@ shinyServer(function(input, output, session) {
       
       modalDialog( title = "File Uploads",
                    includeMarkdown("tabs/Run/help/help_uploading.Rmd"),
+                   footer = NULL,
+                   easyClose = TRUE, 
+                   fade = TRUE)
+    )
+  })  
+  
+  # Example data
+  observeEvent(input$run_example_help, {
+    
+    showModal(
+      
+      modalDialog( title = "Run Example Data",
+                   includeMarkdown("tabs/Run/help/help_run_example.Rmd"),
                    footer = NULL,
                    easyClose = TRUE, 
                    fade = TRUE)
@@ -50,11 +65,9 @@ shinyServer(function(input, output, session) {
       )
   })  
   
-# DYNAMIC RUN BUTTON -----------------------------------------------------------
-  
-  # This feature is no longer used in the shiny app
-  
-  # Reactivity required to display the Run button after upload
+# DYNAMICALLY GENERATED BUTTON -------------------------------------------------
+
+  # Reactivity required to display the Run and reset buttons 
   output$finishedUploading <- reactive({
 
     if (is.null(input$upload_file)) 0 else 1
@@ -66,125 +79,145 @@ shinyServer(function(input, output, session) {
 
 # USER UPLOADED DATA -----------------------------------------------------------
  
+  observeEvent(input$reset, {
+    
+    shinyjs::reset("side-panel")
+  
+    })
+  
+  
   data <- reactive({
+  
+    if(input$example_data == FALSE && is.null(input$upload_file)){
+      
+      validate('Please upload data or run example to view')
+      
+      }
     
-    validate(
-      need(!is.null(input$upload_file),"Please upload a dataset to view")
-      )
+    if(input$example_data) return(example_data)
     
-    load_user_data(name = input$upload_file$name,
-                   path = input$upload_file$datapath)
+    return(
 
+        load_user_data(name = input$upload_file$name,
+                       path = input$upload_file$datapath)
+        )
   })
-
+  
   input_check <- reactive({
 
     check_user_data(data())
 
   })
 
+
+  # Logic for the file input error modals
   observeEvent(!is.null(data()),{
-    
+
     input_check <- check_user_data(data())
-    
+
     if(!is.null(input_check)){
       
-      showModal(modalDialog(
-        # title = "FILE UPLOAD ERROR!",
-        tags$br(),
-        tags$image(src = "error.svg", 
-                   style = "width: 30%; display: block; margin-left: auto; margin-right: auto;"),
-        tags$br(),
-        tags$text(input_check, 
-        style = "color: gray; font-size: 30px;font-variant-caps: all-small-caps;
-                 font-weight: 900;display: flex; width: 100%; justify-content: center;
-                 align-content: center;"),
-        footer = NULL,
-        easyClose = TRUE,
-        fade = TRUE
-        ))
+      shinyWidgets::show_alert(title = "",
+                               type = "error",
+                               btn_labels = 'Dismiss',
+                               btn_colors = "#b0aece",
+                               text = input_check)
+      
+      # showModal(modalDialog(
+      #   # title = "FILE UPLOAD ERROR!",
+      #   tags$br(),
+      #   tags$image(src = "error.svg",
+      #              style = "width: 25%; display: block; margin-left: auto; margin-right: auto;"),
+      #   tags$br(),
+      #   tags$text(input_check,
+      #   style = "color: gray; font-size: 30px;font-variant-caps: all-small-caps;
+      #            font-weight: 900;display: flex; width: 100%; justify-content: center;
+      #            align-content: center;"),
+      #   footer = NULL,
+      #   easyClose = TRUE,
+      #   fade = TRUE
+      #   ))
+
     }
-    
-    
+
   }, priority = 1, ignoreNULL = FALSE, once = FALSE)
-    
-  
+
+
   output$uploaded_data <- DT::renderDataTable({
-  
+
     req(is.null(input_check()))
-    
-    datatable(data(), 
+
+    datatable(data(),
               rownames = FALSE )
-    
+
   }, server = TRUE)
   
- 
 # DECONVOLUTION MARKERS -------------------------------------------------------
 
-  cleaned_data <- reactive({ 
-    
+  cleaned_data <- reactive({
+
     req(is.null(input_check()))
-    
+
     preprocess_data(data())
-  
+
     })
-    
+  
   get_markers <- reactive({
-    
+
     req(cleaned_data(), cancelOutput = TRUE)
 
-    
+
    selected_markers <- switch(input$markergenelist,
-           
+
            `Ajaib et.al (2022)` = {
-             
+
              list(neoplastic_markers = gene_markers$neftel2019_neoplastic,
                   immune_markers = gene_markers$ajaib2022_immune)
-             
+
              },
-           
+
            `Ruiz-Moreno et.al (2022)` ={
-             
+
              list(neoplastic_markers = gene_markers$moreno2022_neoplastic,
                   immune_markers = gene_markers$moreno2022_immune)
            })
-    
-   
+
+
    if(input$tumour_intrinsic){
-     
+
      deconv_markers(exprs_matrix = cleaned_data(),
                     neftel_sigs = selected_markers$neoplastic_markers,
                     TI_genes_only = TRUE,
                     TI_markers = gene_markers$wang2017_tumor_intrinsic,
                     immune_markers =  selected_markers$immune_markers
      )
-     
+
    }else{
-     
+
      deconv_markers(exprs_matrix = cleaned_data(),
                     neftel_sigs = selected_markers$neoplastic_markers,
                     immune_markers =  selected_markers$immune_markers)
    }
-   
-   
+
+
     # if(input$tumour_intrinsic){
-    #   
+    # 
     #   deconv_markers(exprs_matrix = cleaned_data(),
     #                  neftel_sigs = gene_markers$neftel2019_neoplastic,
     #                  TI_genes_only = TRUE,
     #                  TI_markers = gene_markers$wang2017_tumor_intrinsic,
     #                  immune_markers =  gene_markers$ajaib2022_immune
     #                  )
-    #   
+    # 
     #   }else{
-    #   
+    # 
     #   deconv_markers(exprs_matrix = cleaned_data(),
     #                  neftel_sigs = gene_markers$neftel2019_neoplastic,
     #                  immune_markers =  gene_markers$ajaib2022_immune)
     #   }
-    
+
   })
-  
+
   output$deconv_markers <- DT::renderDataTable({
     
     datatable(get_markers(),
@@ -266,30 +299,29 @@ shinyServer(function(input, output, session) {
   
   output$filetype_select <- renderUI({
 
-    req(!is.null(input$upload_file))
+    req(!is.null(input$upload_file) || input$example_data)
 
     selectInput(inputId = "file_format", 
                 label = NULL,
-                choices=c("pdf","svg","png","tiff","ps"),
+                choices= list("Vector" = c("pdf","svg","ps"),
+                              "Raster" = c("png","tiff")),
                 selected = "pdf")
 
   })
   
   output$download_button <- renderUI({
 
-    req(!is.null(input$upload_file))
+    req(!is.null(input$upload_file) || input$example_data)
 
     downloadButton(outputId = "downloadData", label =  'Download Plot')
 
   })
-
-
-  # Generate the file name dynamically with appropriate extension
-  fn_downloadname <- reactive({
+  
+  # Capture the download file extension type
+  file_extension <- reactive({
     
-    paste0(format(Sys.time(), "%d-%m-%Y %H-%M-%S"),
-           "_GBMDeconvoluteR_plot.", input$file_format) 
-    
+    tools::file_ext(input$file_format)
+
   })
   
   
@@ -297,8 +329,8 @@ shinyServer(function(input, output, session) {
     
     filename = function(){
       
-      fn_downloadname()
-    
+      paste0(format(Sys.time(), "%d-%m-%Y %H-%M-%S"),
+             "_GBMDeconvoluteR_plot.", input$file_format) 
     },
       
     content = function(file) {
@@ -329,7 +361,7 @@ shinyServer(function(input, output, session) {
       }
       
       
-      if(tools::file_ext(fn_downloadname()) == "ps"){
+      if(tools::file_ext(file_extension()) == "ps"){
         
         ggsave(file, 
                plot = plot_output(), 
@@ -351,7 +383,6 @@ shinyServer(function(input, output, session) {
         
         
       }
-      
       
     
       

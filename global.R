@@ -16,6 +16,8 @@
 
 library(shiny)
 library(shinyBS)
+library(shinyjs)
+library(shinyWidgets)
 library(shinycssloaders)
 library(tidyverse)
 library(markdown)
@@ -125,6 +127,9 @@ gene_markers$moreno2022_immune <- readRDS("data/Moreno_et_al_2022_lvl3_immune_ma
 
 # Tumour intrinsic markers
 gene_markers$wang2017_tumor_intrinsic <- readRDS("data/Wang_et_al_2017_GBM_TI_markers.rds")
+
+# example data
+example_data <- readRDS("data/TGCA_GBM_example.rds")
 
 
 # Plot colors

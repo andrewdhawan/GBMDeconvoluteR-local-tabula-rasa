@@ -27,4 +27,4 @@ Of course! If you do so, please include references for any dataset(s) you have u
 
 <div class = "about_header"> I have more questions, how can I reach you? </div>
 
-Further information can be found in the <b><i class="fa-solid fa-circle-info"></i> About</b> tab. Alternatively, you can contacts by <a href="mailto:umsaa@leeds.ac.uk"> email </a> or through social media.
+Further information can be found in the <b><i class="fa-solid fa-circle-info"></i> About</b> tab. Alternatively, you can contact us by <a href="mailto:umsaa@leeds.ac.uk"> email </a> or through social media.

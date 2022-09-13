@@ -100,10 +100,20 @@ b, strong {
     color: #9898b2;
 }
 
+.deconv_option_header2{
+  font-size: 22px;
+  font-weight: 300;
+  color: #0000006e;
+  display: inline-block;
+  padding-right: 25px;
+}
+
+
 .deconv_option_header{
   font-size: 22px;
   font-weight: 300;
   color: #0000006e;
+  display: inline-block;
 }
 
 
@@ -503,6 +513,16 @@ ol.outer {
 }
 
 
+
+
+button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-button:focus:not(.disabled), input.dt-button:focus:not(.disabled) {
+    border: 1px solid #426c9e;
+    text-shadow: 0 1px 0 #c4def1;
+    outline: none;
+    background: linear-gradient(to bottom, #b0aece57 0%, #b0aece 100%);
+}
+
+
 .btn-download> .btn-default{
     color: #696969;
     background-color: #fff;
@@ -571,6 +591,22 @@ ol.outer {
 }
 
 
+.material-switch>input[type=checkbox]:checked+label:before {
+  background: #b0aece;
+  opacity: .5;
+}
+
+.material-switch>input[type=checkbox]:checked+label:after {
+  background: #b0aece;
+   left: 20px
+}
+
+
+.bttn-unite.bttn-danger {
+  /* color: #ff5964 */
+  color: #ff5964;
+  margin-left: 10px;
+}
 
 .btn-default {
     color: #696969;

@@ -6,7 +6,7 @@ shinyUI(
   navbarPage(title = div(
     div(
       id = "img-id", img(src = "Leeds_Uni_Logo.png", height = "60px", width = "170px")) 
-    ),
+    ), header = useShinyjs(),  # Set up shinyjs
              collapsible = TRUE,
              windowTitle = "GBMDeconvoluteR", 
              fluid = TRUE, 

@@ -17,23 +17,54 @@ tabPanel(
         
         # SIDEBAR PANEL START ----
         
-        sidebarPanel = sidebarPanel(
+        sidebarPanel = sidebarPanel( id = "side-panel",
           
           # UPLOAD DATA WELL PANEL 
           
-          tags$h4("Upload Data"),
+          tags$h4("Select Data"),
           
-          shiny::actionLink(inputId = "upload_help",
-                            label = img(src="Icons/help.svg", 
-                                        class = "help_icon")),
-          
-          
-          fileInput(inputId = "upload_file", 
+          br(), br(),
+
+          fileInput(inputId = "upload_file",
                     multiple = FALSE,
-                    label = "",
+                    label = tags$div(
+                      class = "deconv_option_header",
+                      "Upload Expression",
+                      shiny::actionLink("upload_help", 
+                                        label = img(src="Icons/help.svg", 
+                                                    class = "help_icon"))
+                      ),
                     buttonLabel = "Browse...",
                     accept=c(".csv", ".tsv", ".xlsx")),
           
+          shinyWidgets::materialSwitch(inputId = "example_data",
+                                       label = tags$div(
+                                         class = "deconv_option_header2",
+                                         "Run Example",
+                                         shiny::actionLink("run_example_help", 
+                                                           label = img(src="Icons/help.svg", 
+                                                                       class = "help_icon")),
+                                                        ),
+                                       inline = TRUE, 
+                                       value = FALSE,
+                                       status = "primary"),
+          
+          # Code for conditional reset button
+          
+          # conditionalPanel(condition = "output.finishedUploading || input.example_data",
+          # 
+          #                  br(),
+          #                  
+          #                  div(style="display:inline-block;width:100%;text-align: center;",
+          #                      
+          #                      shinyWidgets::actionBttn(inputId = "reset",
+          #                                               style = "unite",
+          #                                               color = "primary",
+          #                                               icon =  icon("arrow-rotate-left",
+          #                                                            verify_fa = FALSE),
+          #                                               size = "sm",
+          #                                               label = "Clear Data")
+          #                      )),
           
           hr(class = "hr_runpanel"),
           
@@ -72,6 +103,33 @@ tabPanel(
                                    "No" = FALSE),
                        
                        inline = TRUE)
+          
+          # Code for conditional reset and run button
+          
+          # ,conditionalPanel(condition = "output.finishedUploading || input.example_data",
+          #                  
+          #                  hr(class = "hr_runpanel"),
+          #                  
+          #                  br(), 
+          #                  
+          #                  div(style="display:inline-block;width:100%;text-align: center;",
+          #                      
+          #                      shinyWidgets::actionBttn(inputId = "run_deconv",
+          #                                               style = "unite",
+          #                                               color = "success",
+          #                                               icon =  icon("running"),
+          #                                               size = "md",
+          #                                               label = "Run")
+          #                      
+          #                      ,shinyWidgets::actionBttn(inputId = "reset",
+          #                                               style = "unite",
+          #                                               color = "danger",
+          #                                               icon =  icon("arrow-rotate-left",
+          #                                                            verify_fa = FALSE),
+          #                                               size = "md",
+          #                                               label = "Reset")
+          # 
+          #                      ))
 
         ),
         
@@ -118,7 +176,7 @@ tabPanel(
             
             # Bar plot
             tabPanel(
-              title = "Bar Plot",
+              title = "Plot",
               id = "barplot_tab",
               value = "barplot_selected", 
               

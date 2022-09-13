@@ -23,11 +23,11 @@ output: html_document
 <tbody>
   <tr>
     <td><b><p>Version</p></b></td>
-    <td><p>1.0.0</p></td>
+    <td><p>1.5.0</p></td>
   </tr>
   <tr>
     <td><b><p>Date</p></b></td>
-    <td><p>09/06/2022</p></td>
+    <td><p>09/09/2022</p></td>
   </tr>
   <tr>
     <td><b><p>Author</p></b></td>
@@ -36,7 +36,7 @@ output: html_document
   <tr>
     <td><b><p>Code</p></b></td>
     <td><p>
-    This app was built using <a href = "http://www.rstudio.com/shiny"> Shiny</a> and the full code is available on <a href = "https://github.com/ajxa/GBMDeconvoluteR"> Github</a>
+    This app was built using <a href = "http://www.rstudio.com/shiny"> Shiny</a> and the full code is available on <a href = "https://github.com/GliomaGenomics/GBMDeconvoluteR"> Github</a>
     <p></td>
   </tr>
   <tr>
