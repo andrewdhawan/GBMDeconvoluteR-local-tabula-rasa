@@ -182,6 +182,8 @@ tabPanel(
               
               style = c("height:575px;overflow-y: scroll;"),
               
+              uiOutput("download_options"),
+              
               div(id="plot_download_options",
               style ="display: flex;justify-content: center; align-items: flex-start;",
                   

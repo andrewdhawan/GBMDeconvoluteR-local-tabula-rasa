@@ -523,6 +523,13 @@ button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-
 }
 
 
+#sw-content-btn-598201604{
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+
+
 .btn-download> .btn-default{
     color: #696969;
     background-color: #fff;
@@ -535,6 +542,15 @@ button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-
     margin-left: 50px;
 }
 
+
+
+#file_format + div > .selectize-input {
+    cursor: pointer;
+    border-color: #b0aece;
+    color: #696969;
+    width: 175px;
+    -webkit-box-shadow: none !important;
+}
 
 
 
@@ -608,6 +624,70 @@ button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-
   margin-left: 10px;
 }
 
+
+
+/* Download dropdown buton css */
+
+.tooltip .tooltip-inner { 
+  max-width: 350px; 
+  border: solid; 
+  border-radius: 4px; 
+  border-width: 1px; 
+  border-color:#b0aece;
+  color: #919191; 
+  text-align: center; 
+  background-color: white; 
+  font-size: 12px; 
+  text-align:left; 
+  padding:5px; 
+}
+  
+.tooltip {
+  opacity: 1 !important;
+  
+}
+
+.tooltip.right .tooltip-arrow { 
+  border-right-color:#b0aece; 
+  
+}  
+  
+  
+#btn-598201604{
+    border-color: #b0aece;
+    color: white;
+    background: #b0aece;
+    margin-top: 10px;
+}
+
+
+#btn-598201604:before {
+    background: #b0aece;
+}
+
+#btn-598201604:after {
+    background: #b0aece;
+}
+
+
+#downloadData_bttn{
+  border-color: #b0aece;
+  color: #b0aece;
+}
+
+#downloadData_bttn:before{
+  background: #928DB4;
+}
+
+#downloadData_bttn:after{
+  background: #928DB4;
+}
+
+#downloadData_bttn:hover, #downloadData_bttn:visited, #downloadData_bttn:active{
+  color: white;
+}
+
+
 .btn-default {
     color: #696969;
     background-color: #fff;
@@ -618,52 +698,73 @@ button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-
 }
 
 
-.btn-success.btn {
-  border-color: #b0aece;
-  color: #b0aece;
-  background-color: white;
-  font-size: 30px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  width: 100%;
-  
-}
 
-.btn-success.btn:hover,  .btn-success.btn:visited{
-    color: #fff;
-    background-color: #b0aece;
-    border-color: #b0aece;
-}
-
-.btn-success.btn:active{
-  
-  color: #b0aece;
-  background-color: #fff;
-  border-color: #b0aece;
-  
+.dt-button, div.dt-button, a.dt-button, input.dt-button {
+    position: relative!important;
+    border-color: #b0aece !important;
+    border-style: solid !important;
+    display: inline-block!important;
+    box-sizing: border-box!important;
+    margin-right: 0.333em!important;
+    margin-bottom: 0.333em!important;
+    padding: 0.5em 1em!important;
+    border-radius: 5px !important;
+    cursor: pointer!important;
+    font-size: 15px !important;
+    color: #696969 !important;
+    white-space: nowrap!important;
+    overflow: hidden!important;
+    background: white !important;
+    user-select: none!important;
+    text-decoration: none!important;
+    outline: none!important;
+    text-overflow: ellipsis!important;
 }
 
 
-/*
-.btn-success:focus{
-    color: #fff;
-    background-color: #b0aece;
-    border-color: #b0aece;
+
+.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-button:focus:not(.disabled), input.dt-button:focus:not(.disabled) {
+    border: 1px solid #b0aece !important;
+    text-shadow: 0 1px 0 #c4def1;
+    outline: none;
+    background-color: #79ace9 !important;
+    background: linear-gradient(to bottom, #fafafa 0%, #b0aece 100%) !important;
 }
 
-.btn-success:active:foucus{
-  color: #fff;
-    background-color: #b0aece;
-    border-color: #b0aece;
-  
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #b0aece !important;
+    border-radius: 5px !important;
+    background-color: transparent !important;
+    padding: 4px !important;
 }
 
-.btn-success:active:success{
-  color: #fff;
-    background-color: #b0aece;
-    border-color: #b0aece;
+
+.dataTables_wrapper .dataTables_filter input {
+    width: 100px !important;
+    padding: 4px !important;
+    border: 1px solid #b0aece !important;
+    border-radius: 5px !important;
+    background-color: transparent !important;
+    margin-left: 10px !important;
 }
-*/
+
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+    color: #696969 !important;
+}
+
+div.dt-buttons {
+    position: relative !important;
+    float: none !important;
+}
+
+.dataTables_wrapper .dataTables_scroll {
+    clear: both !important;
+    padding-top: 20px !important;
+}
+
+
+
 
 .box{
   position:relative;

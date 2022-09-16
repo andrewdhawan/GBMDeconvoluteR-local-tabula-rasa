@@ -79,12 +79,11 @@ shinyServer(function(input, output, session) {
 
 # USER UPLOADED DATA -----------------------------------------------------------
  
-  observeEvent(input$reset, {
-    
-    shinyjs::reset("side-panel")
-  
-    })
-  
+  # observeEvent(input$reset, {
+  #   
+  #   shinyjs::reset("side-panel")
+  # 
+  #   })
   
   data <- reactive({
   
@@ -297,40 +296,90 @@ shinyServer(function(input, output, session) {
                                    ) 
 # DOWNLOAD PLOT ---------------------------------------------------------------  
   
-  output$filetype_select <- renderUI({
-
+  # output$filetype_select <- renderUI({
+  # 
+  #   req(!is.null(input$upload_file) || input$example_data)
+  # 
+  #   selectInput(inputId = "file_format", 
+  #               label = NULL,
+  #               choices= list("Vector" = c("pdf","svg","ps"),
+  #                             "Raster" = c("png","tiff")),
+  #               multiple = FALSE)
+  # 
+  # })
+  # 
+  # output$download_button <- renderUI({
+  # 
+  #   req(!is.null(input$upload_file) || input$example_data)
+  # 
+  #   
+  #   
+  #   downloadButton(outputId = "downloadData", label =  'Download Plot')
+  # 
+  # })
+  
+  
+  output$download_options <- renderUI({
+    
     req(!is.null(input$upload_file) || input$example_data)
-
-    selectInput(inputId = "file_format", 
-                label = NULL,
-                choices= list("Vector" = c("pdf","svg","ps"),
-                              "Raster" = c("png","tiff")),
-                selected = "pdf")
-
+    
+    
+    dropdown(
+      
+      selectInput(inputId = "file_format", 
+                  label = tags$p("File Type",
+                                 style = "font-weight: 300;
+                                          color: #0000006e;
+                                          margin-bottom: 0px"),
+                  choices= list("Vector Graphic Formats" = c("pdf","svg","ps"),
+                                "Raster Graphic Formats" = c("png","tiff")),
+                  multiple = FALSE),
+      br(),
+      
+      downloadBttn(outputId = "downloadData",
+                   label = "Click to Download",
+                   style = "unite",
+                   color = "success",
+                   size = "sm",
+                   no_outline = TRUE),
+      
+      style = "simple",
+      size = "md",
+      label = "",
+      no_outline = TRUE,
+      icon = icon("sliders", verify_fa = FALSE),
+      
+      tooltip = tooltipOptions(placement = "right",
+                               title = "Download Options") ,
+      status = "primary", 
+      width = "215px",
+      
+      animate = animateOptions(
+        enter = animations$fading_entrances$fadeInLeftBig,
+        exit = animations$fading_exits$fadeOutRightBig
+        )
+    )
+    
   })
   
-  output$download_button <- renderUI({
-
-    req(!is.null(input$upload_file) || input$example_data)
-
-    downloadButton(outputId = "downloadData", label =  'Download Plot')
-
-  })
+  
   
   # Capture the download file extension type
-  file_extension <- reactive({
-    
-    tools::file_ext(input$file_format)
-
-  })
+  # file_extension <- reactive({
+  #   
+  #   tools::file_ext(input$file_format)
+  # 
+  # })
   
   
   output$downloadData <- downloadHandler(
     
+    contentType = paste("img/",input$file_format, sep = ""),
+    
     filename = function(){
       
-      paste0(format(Sys.time(), "%d-%m-%Y %H-%M-%S"),
-             "_GBMDeconvoluteR_plot.", input$file_format) 
+      paste(format(Sys.time(), "%d-%m-%Y %H-%M-%S"),
+             "_GBMDeconvoluteR_plot.", input$file_format, sep = "") 
     },
       
     content = function(file) {
@@ -360,19 +409,19 @@ shinyServer(function(input, output, session) {
         
       }
       
-      
-      if(tools::file_ext(file_extension()) == "ps"){
-        
-        ggsave(file, 
-               plot = plot_output(), 
-               width = plot_width(),
-               device =  grDevices::cairo_ps,
-               height = plot_height(),
-               units = "in", 
-               limitsize = FALSE)
-        
-        
-      }else{
+    
+      # if(tools::file_ext(file_extension()) == "ps"){
+      #   
+      #   ggsave(file, 
+      #          plot = plot_output(), 
+      #          width = plot_width(),
+      #          device =  grDevices::cairo_ps,
+      #          height = plot_height(),
+      #          units = "in", 
+      #          limitsize = FALSE)
+      #   
+      #   
+      # }
         
         ggsave(file, 
                plot = plot_output(), 
@@ -380,11 +429,6 @@ shinyServer(function(input, output, session) {
                height = plot_height(),
                units = "in", 
                limitsize = FALSE)
-        
-        
-      }
-      
-    
       
     }
   
