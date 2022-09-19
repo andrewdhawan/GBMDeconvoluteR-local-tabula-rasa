@@ -1,13 +1,23 @@
-#adult_table .odd {background-color: #68cbd0;}
-#pediatric_table .odd {background-color: #8ABBD7;color:#333333;}
 
-table.dataTable.display td, table.dataTable.display th {
+table.dataTable.display th{
+  text-align:center;
+  background: #b0aece;
+  color: white;
+  font-weight: 900;
+  
+}
+
+table.dataTable.display td{
     text-align:left;
+    background: white;
+    color: #696969;
 }
 
-table.dataTable.display td + td, table.dataTable.display th + th {
+/*table.dataTable.display td + td, table.dataTable.display th {
     text-align:center;
-}
+    background: #b0aece;
+    color: white;
+}*/
 
 
 .help_icon{
@@ -387,10 +397,6 @@ checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio inp
 }
 
 
-
-
-
-
 h4.outer {
   color: #8685A3; 
   font-style: italic;
@@ -513,37 +519,6 @@ ol.outer {
 }
 
 
-
-
-button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-button:focus:not(.disabled), input.dt-button:focus:not(.disabled) {
-    border: 1px solid #426c9e;
-    text-shadow: 0 1px 0 #c4def1;
-    outline: none;
-    background: linear-gradient(to bottom, #b0aece57 0%, #b0aece 100%);
-}
-
-
-#sw-content-btn-598201604{
-  margin-top: 20px;
-  margin-left: 20px;
-}
-
-
-
-.btn-download> .btn-default{
-    color: #696969;
-    background-color: #fff;
-    border-color: #b0aece;
-    display: inline-block;
-    vertical-align:top;
-    width:150px;
-    font-weight: 500;
-    margin-top: 10px;
-    margin-left: 50px;
-}
-
-
-
 #file_format + div > .selectize-input {
     cursor: pointer;
     border-color: #b0aece;
@@ -551,7 +526,6 @@ button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-
     width: 175px;
     -webkit-box-shadow: none !important;
 }
-
 
 
 #markergenelist + div > .selectize-input {
@@ -575,18 +549,6 @@ button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-
 }
 
 }
-
-
-/*.error_modal_text{
-  color: dimgray;
-  font-size: 30px;
-  font-variant-caps: all-small-caps;
-  font-weight: 900;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-content: center;
-}*/
 
 
 .selectize-dropdown-content {
@@ -653,22 +615,16 @@ button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-
 }  
   
   
-#btn-598201604{
-    border-color: #b0aece;
-    color: white;
-    background: #b0aece;
-    margin-top: 10px;
+#sw-content-btn-680198132{
+  margin-top: 20px;
+  margin-left: 20px;
 }
-
-
-#btn-598201604:before {
-    background: #b0aece;
+  
+  
+#btn-680198132{
+  background: #b0aece;
+  margin-top: 10px;
 }
-
-#btn-598201604:after {
-    background: #b0aece;
-}
-
 
 #downloadData_bttn{
   border-color: #b0aece;
@@ -711,6 +667,7 @@ button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-
     border-radius: 5px !important;
     cursor: pointer!important;
     font-size: 15px !important;
+    font-weight: 900 !important;
     color: #696969 !important;
     white-space: nowrap!important;
     overflow: hidden!important;
@@ -722,10 +679,18 @@ button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-
 }
 
 
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    border: 1px solid #b0aece !important;
+    text-shadow: 0 1px 0 #b0aecf !important
+    outline: none !important;
+    color: white !important;
+    background: #b0aece !important;
+}
+
 
 .dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-button:focus:not(.disabled), input.dt-button:focus:not(.disabled) {
     border: 1px solid #b0aece !important;
-    text-shadow: 0 1px 0 #c4def1;
+    text-shadow: 0 1px 0 #b0aecf !important
     outline: none;
     background-color: #79ace9 !important;
     background: linear-gradient(to bottom, #fafafa 0%, #b0aece 100%) !important;
@@ -753,15 +718,19 @@ button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-
     color: #696969 !important;
 }
 
-div.dt-buttons {
-    position: relative !important;
-    float: none !important;
-}
 
 .dataTables_wrapper .dataTables_scroll {
     clear: both !important;
     padding-top: 20px !important;
 }
+
+
+.dt-buttons {
+    position: relative;
+    float: none !important;
+    display: inline-block !important;
+}
+
 
 
 

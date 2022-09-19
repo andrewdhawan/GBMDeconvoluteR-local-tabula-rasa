@@ -296,29 +296,6 @@ shinyServer(function(input, output, session) {
                                    ) 
 # DOWNLOAD PLOT ---------------------------------------------------------------  
   
-  # output$filetype_select <- renderUI({
-  # 
-  #   req(!is.null(input$upload_file) || input$example_data)
-  # 
-  #   selectInput(inputId = "file_format", 
-  #               label = NULL,
-  #               choices= list("Vector" = c("pdf","svg","ps"),
-  #                             "Raster" = c("png","tiff")),
-  #               multiple = FALSE)
-  # 
-  # })
-  # 
-  # output$download_button <- renderUI({
-  # 
-  #   req(!is.null(input$upload_file) || input$example_data)
-  # 
-  #   
-  #   
-  #   downloadButton(outputId = "downloadData", label =  'Download Plot')
-  # 
-  # })
-  
-  
   output$download_options <- renderUI({
     
     req(!is.null(input$upload_file) || input$example_data)
@@ -362,24 +339,18 @@ shinyServer(function(input, output, session) {
     
   })
   
-  
-  
-  # Capture the download file extension type
-  # file_extension <- reactive({
-  #   
-  #   tools::file_ext(input$file_format)
-  # 
-  # })
-  
+
   
   output$downloadData <- downloadHandler(
     
-    contentType = paste("img/",input$file_format, sep = ""),
+    contentType = paste("img/", input$file_format, sep = ""),
     
     filename = function(){
       
       paste(format(Sys.time(), "%d-%m-%Y %H-%M-%S"),
-             "_GBMDeconvoluteR_plot.", input$file_format, sep = "") 
+            "_GBMDeconvoluteR_plot.", 
+            input$file_format, 
+            sep = "") 
     },
       
     content = function(file) {
@@ -409,29 +380,30 @@ shinyServer(function(input, output, session) {
         
       }
       
-    
-      # if(tools::file_ext(file_extension()) == "ps"){
-      #   
-      #   ggsave(file, 
-      #          plot = plot_output(), 
-      #          width = plot_width(),
-      #          device =  grDevices::cairo_ps,
-      #          height = plot_height(),
-      #          units = "in", 
-      #          limitsize = FALSE)
-      #   
-      #   
-      # }
+      if(input$file_format == "svg"){
         
-        ggsave(file, 
-               plot = plot_output(), 
-               width = plot_width(), 
+        svglite::svglite(filename = file,
+                         width = plot_width(),
+                         height = plot_height())
+        
+        plot(plot_output())
+        
+        dev.off()
+        
+      }else{
+        
+        ggsave(file,
+               plot = plot_output(),
+               width = plot_width(),
+               device =  grDevices::cairo_ps,
                height = plot_height(),
-               units = "in", 
+               units = "in",
                limitsize = FALSE)
-      
-    }
-  
+        
+        }
+
+      }
+    
     )
   
   
