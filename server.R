@@ -79,12 +79,6 @@ shinyServer(function(input, output, session) {
 
 # USER UPLOADED DATA -----------------------------------------------------------
  
-  # observeEvent(input$reset, {
-  #   
-  #   shinyjs::reset("side-panel")
-  # 
-  #   })
-  
   data <- reactive({
   
     if(input$example_data == FALSE && is.null(input$upload_file)){
@@ -146,8 +140,7 @@ shinyServer(function(input, output, session) {
 
     req(is.null(input_check()))
 
-    datatable(data(),
-              rownames = FALSE )
+    datatable(data(), rownames = FALSE)
 
   }, server = TRUE)
   
@@ -219,8 +212,7 @@ shinyServer(function(input, output, session) {
 
   output$deconv_markers <- DT::renderDataTable({
     
-    datatable(get_markers(),
-              rownames = FALSE, 
+    datatable(get_markers(), rownames = FALSE, 
               extensions = c("FixedColumns", 'Buttons')
               )
     
