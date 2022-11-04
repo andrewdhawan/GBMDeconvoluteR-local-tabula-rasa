@@ -300,7 +300,7 @@ shinyServer(function(input, output, session) {
                                  style = "font-weight: 300;
                                           color: #0000006e;
                                           margin-bottom: 0px"),
-                  choices= list("Vector Graphic Formats" = c("pdf","svg","ps"),
+                  choices= list("Vector Graphic Formats" = c("pdf","svg"),
                                 "Raster Graphic Formats" = c("png","tiff")),
                   multiple = FALSE),
       br(),
@@ -331,7 +331,6 @@ shinyServer(function(input, output, session) {
     
   })
   
-
   
   output$downloadData <- downloadHandler(
     
@@ -382,17 +381,52 @@ shinyServer(function(input, output, session) {
         
         dev.off()
         
-      }else{
+      }else if(input$file_format == "pdf"){
         
-        ggsave(file,
-               plot = plot_output(),
-               width = plot_width(),
-               device =  grDevices::cairo_ps,
-               height = plot_height(),
-               units = "in",
-               limitsize = FALSE)
+        pdf(file = file, 
+            width = plot_width(),
+            height = plot_height())
         
-        }
+        plot(plot_output())
+        
+        dev.off()
+        
+      }else if(input$file_format == "tiff"){
+        
+        tiff(
+          filename = file, 
+          width = plot_width(),
+          height = plot_height(),
+          units = "in",
+          res = 300)
+        
+        plot(plot_output())
+        
+        dev.off()
+        
+      }else if(input$file_format == "png"){
+        
+        png(
+          filename = file, 
+          width = plot_width(),
+          height = plot_height(),
+          units = "in",
+          res = 300)
+        
+        plot(plot_output())
+        
+        dev.off()
+        
+      }
+      
+        # ggsave(file,
+        #        plot = plot_output(),
+        #        width = plot_width(),
+        #        device =  grDevices::cairo_ps,
+        #        height = plot_height(),
+        #        units = "in",
+        #        limitsize = FALSE)
+
 
       }
     
