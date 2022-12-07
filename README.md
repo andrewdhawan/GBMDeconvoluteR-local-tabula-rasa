@@ -16,16 +16,16 @@ If you wish to run this application on your local machine, this can be easily be
 
 Currently, our paper is in preprint and has not been certified by peer review, though please cite:
 
-    ```bibtex
-    @article {Ajaib2022.11.19.517187,
-        author = {Ajaib, Shoaib and Lodha, Disha and Pollock, Steven and Hemmings, Gemma and Finetti, Martina A. and Gusnanto, Arief and Chakrabarty, Aruna and Ismail, Azzam and Wilson, Erica and Varn, Frederick S and Hunter, Bethany and Filby, Andrew and Brockman, Asa A. and McDonald, David and Verhaak, Roel GW and Ihrie, Rebecca A. and Stead, Lucy F.},
-        title = {GBMdeconvoluteR accurately infers proportions of neoplastic and immune cell populations from bulk glioblastoma transcriptomics data},
-        elocation-id = {2022.11.19.517187},
-        year = {2022},
-        doi = {10.1101/2022.11.19.517187},
-        publisher = {Cold Spring Harbor Laboratory},
-        URL = {https://www.biorxiv.org/content/early/2022/11/21/2022.11.19.517187},
-        eprint = {https://www.biorxiv.org/content/early/2022/11/21/2022.11.19.517187.full.pdf},
-        journal = {bioRxiv}
-    }
-    ```
+``` bibtex
+@article {Ajaib2022.11.19.517187,
+    author = {Ajaib, Shoaib and Lodha, Disha and Pollock, Steven and Hemmings, Gemma and Finetti, Martina A. and Gusnanto, Arief and Chakrabarty, Aruna and Ismail, Azzam and Wilson, Erica and Varn, Frederick S and Hunter, Bethany and Filby, Andrew and Brockman, Asa A. and McDonald, David and Verhaak, Roel GW and Ihrie, Rebecca A. and Stead, Lucy F.},
+    title = {GBMdeconvoluteR accurately infers proportions of neoplastic and immune cell populations from bulk glioblastoma transcriptomics data},
+    elocation-id = {2022.11.19.517187},
+    year = {2022},
+    doi = {10.1101/2022.11.19.517187},
+    publisher = {Cold Spring Harbor Laboratory},
+    URL = {https://www.biorxiv.org/content/early/2022/11/21/2022.11.19.517187},
+    eprint = {https://www.biorxiv.org/content/early/2022/11/21/2022.11.19.517187.full.pdf},
+    journal = {bioRxiv}
+}
+```
