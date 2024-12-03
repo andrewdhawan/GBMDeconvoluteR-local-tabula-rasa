@@ -84,7 +84,7 @@ tabPanel(
                                                                      class = "help_icon"))
                       ),
                       
-                      choices = c("Ajaib et.al (2022)","Ruiz-Moreno et.al (2022)"),
+                      choices = c("Ajaib et.al (2022)","Ajaib_plt","Ruiz-Moreno et.al (2022)"),
                       selected = c("Ajaib et.al (2022)"),
                       multiple = FALSE,
                       width = '200px',
