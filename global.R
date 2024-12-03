@@ -122,7 +122,7 @@ gene_markers$moreno2022_neoplastic <- readRDS("data/Moreno_et_al_2022_lvl3_neopl
 
 # Immune cell markers
 gene_markers$ajaib2022_immune <- readRDS("data/Ajaib_et_al_2022_GBM_Immune_markers.rds")
-gene_markers$ajaib2022_plt <- readRDS("data/ajaib_plt.rda")
+gene_markers$ajaib2022_plt <- readRDS("data/ajaib_plt.rds")
 
 gene_markers$moreno2022_immune <- readRDS("data/Moreno_et_al_2022_lvl3_immune_markers.rds")
 
