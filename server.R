@@ -168,6 +168,14 @@ shinyServer(function(input, output, session) {
 
              },
 
+  `Ajaib_plt` = {
+
+             list(neoplastic_markers = gene_markers$neftel2019_neoplastic,
+                  immune_markers = gene_markers$ajaib2022_plt)
+
+             },
+
+                              
            `Ruiz-Moreno et.al (2022)` ={
 
              list(neoplastic_markers = gene_markers$moreno2022_neoplastic,
